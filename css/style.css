@@ -1,0 +1,654 @@
+*{
+    border:0;
+    padding:0;
+    margin:0;
+}
+html{
+    height: 100%;
+    width:100%;
+}
+body {
+    height: 100%;
+    width: 100%;
+    overflow:hidden;
+    margin: 0px;
+    z-index: 0;
+}
+
+a{
+    text-decoration: none!important;
+    outline:0!important;
+}
+
+@media all and (orientation:landscape) {
+    #mapCanvas{
+        margin: 0;
+        padding: 0;
+        min-height: 88%;
+        height: auto;
+    }
+    .topNav{
+        border-top:1px solid #ddd;
+        height: 12%;
+    }
+    .topNav li{
+        width: 10%;
+    }
+    .topNav li:first-of-type{
+        width: 70%;
+    }
+}
+
+@media all and (orientation:portrait) {
+    #mapCanvas{
+        margin: 0;
+        padding: 0;
+        min-height: 92%;
+        height: auto;
+    }
+    .topNav{
+        border-top:1px solid #ddd;
+        height: 8%;
+    }
+    .topNav li{
+        width: 20%;
+    }
+    .topNav li:first-of-type{
+        width: 40%;
+    }
+}
+
+.alert-danger{
+    width: 70%;
+    text-align:center;
+    position:fixed; display:block; top: 50%;left: 50%; transform: translate(-50%, -50%);
+}
+
+#blackOverlay{
+    display:none;
+    position:absolute;
+    z-index: 2;
+    width: 100%;
+    height: 90%;
+    background: rgba(0,0,0,0.4);
+}
+
+.sidenav{
+    height: 100%;
+    width: 70%;
+    max-width:350px;
+    position: fixed;
+    z-index: 3;
+    top: 0;
+    left: -70%;
+    overflow-x: hidden;
+    background: white;
+}
+
+/* The navigation menu links */
+
+#logo{
+    display: block;
+    margin:auto;
+    margin-top:5%;
+    margin-bottom:5%;
+    width: 100%;
+    max-width: 150px;
+}
+
+#app-logo{
+    display: block;
+    margin:auto;
+    margin-top:10%;
+    margin-bottom:10%;
+    max-width: 100px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+    transition: margin-left .5s;
+    padding: 0;
+    height:100%;
+}
+
+#controlNav h1{
+    color:#464962;
+    margin: 0;
+    font-size:1.3em;
+    margin-left: 15px;
+    width:43%;
+    display:inline-block;
+}
+#controlNav #heart{
+    color:#FD7B7D;
+    font-size:2em;
+    margin-right:3%;
+    cursor:pointer;
+    display:inline-block;
+}
+#controlNav #navigate{
+    color:#ca789d;
+    font-size:2em;
+    margin-right:3%;
+    cursor:pointer;
+    display:inline-block;
+    position: absolute;
+    right:0;
+    top: 25%;
+}
+
+#cog_icon{
+    box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;
+    border-radius: 2px;
+    margin-left:7px;
+    margin-bottom:10px;
+}
+
+#controlNav img{
+    position: relative;
+    display:inline-block;
+    /*margin-left:45%;*/
+}
+
+#gettingLocation{
+    background-color: white;
+    position: absolute;
+    top: 40vh;
+    left:25vw;
+    width: 50vw;
+    z-index: 3;
+    text-align: center;
+    transition: 0.25s;
+}
+#gettingLocation img{
+    padding-top: 2vh;
+    max-height: 10vh;
+    display:block;
+    margin:auto;
+}
+#gettingLocation .title{
+    color:white;
+    padding-top: 1vh;
+    padding-bottom: 1vh;
+    width: 100%;
+    background-color:#789DCA; 
+    text-transform: uppercase;  
+    font-weight: bold;
+}
+#gettingLocation span{
+    width: 100%;
+    text-transform: uppercase;
+    font-weight: bold;
+    color:#789DCA;
+}
+/*Side Nav CSS*/
+.slider.slider-horizontal {
+    width: 80%;
+    height: 20px;
+    margin-left: 10%;
+}
+.slider-selection {
+    background: #BAD8F2;
+}
+/* The switch - the box around the sliderIOS */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 23px;
+}
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+/* The slider */
+.sliderIOS {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+.sliderIOS:before {
+  position: absolute;
+  content: "";
+  height: 15px;
+  width: 15px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+input:checked + .sliderIOS {
+  background-color: #2196F3;
+}
+input:focus + .sliderIOS {
+  box-shadow: 0 0 1px #2196F3;
+}
+input:checked + .sliderIOS:before {
+  -webkit-transform: translateX(28px);
+  -ms-transform: translateX(28px);
+  transform: translateX(28px);
+}
+
+/* Rounded sliderIOS */
+.sliderIOS.round {
+  border-radius: 20px;
+}
+
+.sliderIOS.round:before {
+  border-radius: 50%;
+}
+
+/*End of Side Nav CSS*/
+
+h2{
+    font-size: 20px;
+    color:black;
+    text-align: center;
+    margin-bottom:20%;
+}
+
+.glyphicon.glyphicon-menu-right{
+    right:0;
+    float:right;
+}
+
+.gm-style-iw div{
+    overflow:visible!important;
+}
+.functionIcon{
+    z-index: 10;
+    margin-top:-5px;
+    margin-left:0.8em;
+}
+
+.cityBike h3, .parkHere h3, .searchInfo h3, .facility h3, .parkPlace h3{
+    display: inline-block;
+    text-transform: uppercase;
+    margin:0;
+    color:#484B64;
+    font-size: 16px;
+}
+
+.cityBike .separate, .searchInfo .separate, .facility .separate, .parkPlace .separate{
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-top: 3px solid #eee;
+}
+.cityBike .info, .searchInfo .info, .facility .info, .parkPlace .info {
+    margin-top:5px;
+    color:#484B64;
+    font-size:15px;
+    font-weight: normal;
+}
+.cityBike .register{
+    margin-left:25%;
+    width: 50%;
+    min-height: 30px;
+    border-radius: 5%;
+    background-color:#484B64;
+}
+.cityBike .register a{
+    color:white;
+}
+.cityBike .moreInfo, .searchInfo .moreInfo, .facility .moreInfo, .parkPlace .moreInfo {
+    display:block;
+    width: 100%;
+    text-align: center;
+    color:#484B64;
+}
+.cityBike .freeBike{
+    display:inline-block;
+    background: #fbb800;
+    width:10px;
+    height: 10px;
+    margin-left:1px;
+    margin-right: 1px;
+}
+.cityBike .freeSpot{
+    display:inline-block;
+    background: #E5E8EF;
+    width:10px;
+    height: 10px;
+    margin-left:1px;
+    margin-right: 1px;
+}
+
+.cityBike span, .parkHere span, .facility span, .parkPlace span{
+    font-size: 14px;
+    color:#484B64;
+    font-weight:normal;
+}
+.topNav nav{
+    height: 100%;
+}
+.topNav ul{
+    width: 100%;
+    height: 100%;
+    margin:0;
+}
+.topNav nav a{
+    height:100%;
+}
+.topNav li{
+    position: relative;
+    list-style-type: none;
+    font-size: 0.8em;
+    font-weight: bold;
+    height: 100%;
+    color:#acacac;
+    float: left;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.topNav li.active i, .topNav li.active span{
+    color:#789DCA;
+}
+.topNav li span{
+    margin-top: -5px;
+    width: 100%;
+    font-size:10px;
+}
+.topNav li div{
+    height: 100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-wrap: wrap;
+}
+.custom-img-responsive{
+  height: 100%;
+  max-width: 30px;
+  max-height: 30px;
+}
+.custom-i{
+    margin-top: 2%;
+}
+#markerFacility, #markerBike, #polygon,#destination_marker, #markerSearch{
+    background-color: #acacac;
+}
+#markerFacility:active, #markerBike:active, #polygon:active, #destination_marker:active, #markerSearch:active{
+    background-color: #4A6AA5;
+}
+#saveButton{
+    outline:none;
+    margin-left:25%;
+    width: 50%;
+    min-height: 30px;
+    border-radius: 5%;
+    background-color:white;
+    border:1px solid #1CBB9B;
+    color:#1CBB9B;
+}
+#unpark{
+    outline:none;
+    margin-left:25%;
+    width: 50%;
+    min-height: 30px;
+    border-radius: 5%;
+    background-color:white;
+    border:1px solid red;
+    color:red;
+    margin-top:5px;
+}
+#unpark:active{
+    background-color:red;
+    color:white;
+}
+#saveButton.active{
+    margin-left:15%;
+    width:70%;
+    background-color:#1CBB9B;
+    color:white;
+
+}
+#saveButton:active{
+    background-color:#1CBB9B;
+    color:white;
+}
+.locationPanel{
+    width: 100%;
+    background: #1cbb9b;
+    display:flex;justify-content:center;align-items:center;
+    color:white;
+    height:10vh;
+}
+.content{
+    margin:2% 4%;
+}
+.locationPanel #saveIcon{
+    background:#1cbb9b;
+}
+.lovePanel{
+ width: 100%;
+ background: #FF9AD7;
+ display:flex;justify-content:center;align-items:center;
+ color:white;
+ height:7vh;   
+}
+.locationPanel #saveIcon{
+    background:#1cbb9b;
+}
+#direction{
+    position:absolute;
+    z-index: 10;
+    top:8%;
+    height: 40vh;
+    width: 100%;
+    overflow-y: scroll;
+    background: rgba(255,255,255,0.9);
+    display:none;
+    padding-left:5%;
+    padding-right:5%;
+}
+#noInternet{
+    width:50;
+}
+#help{
+    z-index: 1;
+    display:none;
+    position: absolute;
+    width: 30%;
+    max-width: 200px;
+    height: auto;
+    left:0;
+    background-color: rgba(255,255,255,0.7);
+}
+#help td{
+    width:45%;
+    padding-left: 5%;
+}
+
+#help hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    margin: 1em 0;
+    padding: 0; 
+}
+#help hr.car{
+    border-top: 1px solid #FF6861;
+}
+
+#help hr.public{
+    border-top: 1px solid #779ECB;
+}
+
+#filter{
+    z-index: 1;
+    position:absolute;
+    bottom:80px;
+    left: 7px!important;
+    background-color: white;
+    padding-bottom:10px;
+}
+#filter label{
+    margin-left:5px;
+    margin-bottom: 0;
+}
+#filter tr td{
+    padding-top:10px;
+}
+#filter tr>td>label{
+    margin-left:10px;
+    margin-right:10px;
+}
+th{
+    background-color: #789DCA;
+    text-transform: uppercase;
+    padding-top:5px;
+    padding-bottom: 5px;
+    text-align:center;
+    color: white;
+    margin-bottom:10px;
+}
+#theme{
+    width: 100%;
+}
+#person {
+    top: 50%;
+    left: 50%;
+    transform: translate(150%, -50%);
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border: 2px solid white;
+    border-radius:50%;
+}
+.bottomDiv{
+    z-index: 2;
+    position: absolute;
+    height: 0;
+    width: 100%;
+    background-color: white;
+    transition: .5s;
+    bottom: 0;
+}
+.bottomDiv #info{
+    height:7vh;
+    margin-left:120px;
+    top:5px;
+    position: relative;
+    font-weight: bold;
+}
+.bottomDiv .content{
+    margin-top:-50px;
+}
+#search_input_wrap{
+    z-index: 1;
+    position: absolute;
+    top:11vh;
+    animation: all 0.5s;
+}
+
+#input-group{
+    max-width:60vw;
+    margin-top: 10px;
+}
+
+#search_input{
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    background-color: rgb(255,255,255);
+    font-family: Roboto;
+    height: 39px;
+}
+
+#search_input:focus {
+    border-color: #4d90fe;
+}
+#close_search{
+    height: 39px;
+}
+#arrowDown{
+    background-color: white;
+    top:9vh;
+    z-index:1;
+    position: absolute;
+    width: auto;
+    max-width: 10vw;
+    text-align: center;
+    left: 0; 
+    right: 0; 
+    margin-left: auto; 
+    margin-right: auto; 
+    animation: all 0.5s;
+}
+#arrowUp{
+   background-color: white;
+   top:9vh;
+   z-index:1;
+   position: absolute;
+   width: auto;
+   max-width: 10vw;
+   text-align: center;
+   left: 0; 
+   right: 0; 
+   margin-left: auto; 
+   margin-right: auto;  
+   animation: all 0.5s;
+}
+.modal-dialog {
+    margin-left: 10vw;
+    width: 80vw!important;
+}
+.vertical-alignment-helper {
+    display:table;
+    height: 100%;
+    width: 100%;
+    pointer-events:none; /* This makes sure that we can still click outside of the modal to close it */
+}
+.vertical-align-center {
+    /* To center vertically */
+    display: table-cell;
+    vertical-align: middle;
+    pointer-events:none;
+}
+.modal-content {
+    /* Bootstrap sets the size of the modal in the modal-dialog class, we need to inherit it */
+    width:inherit;
+    height:inherit;
+    /* To center horizontally */
+    margin: 0 auto;
+    pointer-events: all;
+}
+.modal .alert-danger,.modal .alert-success{
+    text-align: center;
+    width: auto!important;
+    position:relative!important;
+    top: 0%!important;
+    left: 0%!important;
+    transform: translate(0, 0)!important;
+}
+
+#waiting-respond{
+    width: 100%;
+}
+.developer{
+    width: 100%;
+    text-align:center;
+    position: absolute;
+    bottom:1vh;
+    left:0;
+}
+.developer img{
+    display: block;
+    margin:auto;
+    max-height: 7vh;
+}
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+@media screen and (min-width: 600px){
+    #input-group{
+        max-width:90vw;
+    }
+}
