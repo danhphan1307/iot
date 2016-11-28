@@ -51,10 +51,10 @@ a{
         height: 8%;
     }
     .topNav li{
-        width: 20%;
+        width: 18%;
     }
     .topNav li:first-of-type{
-        width: 40%;
+        width: 46%;
     }
 }
 
@@ -87,21 +87,13 @@ a{
 
 /* The navigation menu links */
 
-#logo{
+#app-logo{
     display: block;
     margin:auto;
     margin-top:5%;
     margin-bottom:5%;
     width: 100%;
     max-width: 150px;
-}
-
-#app-logo{
-    display: block;
-    margin:auto;
-    margin-top:10%;
-    margin-bottom:10%;
-    max-width: 100px;
 }
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
@@ -171,7 +163,7 @@ a{
     padding-top: 1vh;
     padding-bottom: 1vh;
     width: 100%;
-    background-color:#789DCA; 
+    background-color:#FFA807; 
     text-transform: uppercase;  
     font-weight: bold;
 }
@@ -179,7 +171,7 @@ a{
     width: 100%;
     text-transform: uppercase;
     font-weight: bold;
-    color:#789DCA;
+    color:#FFA807;
 }
 /*Side Nav CSS*/
 .slider.slider-horizontal {
@@ -347,7 +339,7 @@ h2{
 }
 
 .topNav li.active i, .topNav li.active span{
-    color:#789DCA;
+    color:#FFA807;
 }
 .topNav li span{
     margin-top: -5px;
@@ -413,10 +405,12 @@ h2{
 }
 .locationPanel{
     width: 100%;
-    background: #1cbb9b;
-    display:flex;justify-content:center;align-items:center;
-    color:white;
-    height:10vh;
+    background: #FFA807;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    height: 10vh;
 }
 .content{
     margin:2% 4%;
@@ -424,16 +418,7 @@ h2{
 .locationPanel #saveIcon{
     background:#1cbb9b;
 }
-.lovePanel{
- width: 100%;
- background: #FF9AD7;
- display:flex;justify-content:center;align-items:center;
- color:white;
- height:7vh;   
-}
-.locationPanel #saveIcon{
-    background:#1cbb9b;
-}
+
 #direction{
     position:absolute;
     z-index: 10;
@@ -513,12 +498,13 @@ th{
 #person {
     top: 50%;
     left: 50%;
-    transform: translate(150%, -50%);
+    transform: translate(-50%,-50%);
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
-    border: 2px solid white;
-    border-radius:50%;
+    border-radius: 50%;
+    position: relative;
+    max-width: 64px;
 }
 .bottomDiv{
     z-index: 2;

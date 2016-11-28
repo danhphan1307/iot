@@ -13,9 +13,9 @@ import {BlackOverlay} from '../component/blackoverlay.component';
   <div class="topNav">
   <nav>
   <ul>
-  <li href="/bike">
+  <li routerLink="/bike">
   <div>
-  <img src="../img/logo.png" alt="app-logo" id="logo">
+  <img src="../img/logo.png" alt="app-logo" id="app-logo">
   </div>
   </li>
   <li routerLink="/bike" routerLinkActive="active" id="bike">

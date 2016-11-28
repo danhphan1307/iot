@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 import {MapService} from './map.service'
 function localStorage_hasData() {
     try {
-        if(JSON.parse(localStorage.getItem("carLocation")).name.en != "Sorry, you did not save your car location"){
+        if(JSON.parse(localStorage.getItem("userLocation")).name.en != "No data"){
             return true;
         }else {
             return false;
@@ -206,15 +206,15 @@ export class MapComponent{
 
     editLocalStorage(data:any){
         if(localStorage_hasData()){
-            var object = JSON.parse(localStorage.getItem('carLocation'));
+            var object = JSON.parse(localStorage.getItem('userLocation'));
             if(data.location.coordinates[0][0][1] != object.location.coordinates[0][0][1] || data.location.coordinates[0][0][0] != object.location.coordinates[0][0][0]){
                 localStorage.setItem('date',Date());
-                localStorage.setItem('carLocation',JSON.stringify(data));
+                localStorage.setItem('userLocation',JSON.stringify(data));
                 this.saveUpdated.emit(data);
             }
         }else {
             localStorage.setItem('date',Date());
-            localStorage.setItem('carLocation',JSON.stringify(data));
+            localStorage.setItem('userLocation',JSON.stringify(data));
             this.saveUpdated.emit(data);
         }
     }
@@ -265,7 +265,6 @@ export class MapComponent{
         });
         return sResult;
     }
-
 
     private showDirection(marker: any = null, multiDirection:boolean = true){
         var current = new google.maps.LatLng(this.centerLat,this.centerLon);

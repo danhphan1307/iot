@@ -110,21 +110,10 @@ export class MapService{
         var type=this.getZoomLevel(_map);
         var _visible = true;
 
-        if(_type=="bikestation"){
-            _icon = this.iconsBikeStation[type].icon;
-        }else if(_type=="carstation"){
-            _icon = this.icons[type].icon;
-        }else if(_type=="bike"){
+        if(_type=="bike"){
             _icon = this.iconsBike[type].icon;
-        }else if(_type=="park"){
-            _zIndex = 2;
-            _icon = this.iconsParkHere['large'].icon;
         }else if(_type=="default"){
             _icon = "img/default.png"
-        }else if(_type=="hiden"){
-            _visible = false;
-        }else if(_type=="entrance"){
-            _icon = this.iconEntrance['large'].icon;
         }
 
         var temp_marker = new google.maps.Marker({
@@ -137,14 +126,8 @@ export class MapService{
 
         google.maps.event.addDomListener(_map,'zoom_changed',()=>{
             type=this.getZoomLevel(_map);
-            if(_type=="bikestation"){
-                temp_marker.setIcon(this.iconsBikeStation[type].icon);
-            }else if(_type=="carstation"){
-                temp_marker.setIcon(this.icons[type].icon);
-            }else if(_type=="bike"){
+            if(_type=="bike"){
                 temp_marker.setIcon(this.iconsBike[type].icon);
-            }else if(_type=="park"){
-                //temp_marker.setIcon(this.iconsParkHere[type].icon);
             }else if(_type=="fefault"){
                 //temp_marker.setIcon(null);
             }

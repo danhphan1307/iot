@@ -1,15 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" manifest="manifest.appcache">
+<html lang="en">
 <head>
-	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-	<script>
-		(adsbygoogle = window.adsbygoogle || []).push({
-			google_ad_client: "ca-pub-4607161580573747",
-			enable_page_level_ads: true
-		});
-	</script>
 	<base href="/">
-	<title>Helsinki Parking</title>
+	<title>Smart Bicycle</title>
 	<meta name="description" content="A Web Application for finding parking spots in Helsinki region">
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -36,82 +29,71 @@
 	<script async defer src="https://maps.googleapis.com/maps/api/js?v=3.27&key=AIzaSyC9xg4iGS-l2PLDIdLp1u3T9vCIMXIdVoE&language=en&libraries=places"></script>
 </head>
 <body>
-	<script type="text/javascript">
-		var localStorage_isSupported = (function () {
-			try {
-				var itemBackup = localStorage.getItem("");
+<script type="text/javascript">
+	var localStorage_isSupported = (function () {
+		try {
+			var itemBackup = localStorage.getItem("");
+			localStorage.removeItem("");
+			localStorage.setItem("", itemBackup);
+			if (itemBackup === null)
 				localStorage.removeItem("");
+			else
 				localStorage.setItem("", itemBackup);
-				if (itemBackup === null)
-					localStorage.removeItem("");
-				else
-					localStorage.setItem("", itemBackup);
-				return true;
-			}
-			catch (e) {
-				return false;
-			}
-		})();
-		var localStorage_hasData = (function () {
-			try {
-				if(localStorage_isSupported){
-					if(localStorage.getItem("carLocation") !== null){
-						return true;
-					}else {
-						return false;
-					}
-				} else {
+			return true;
+		}
+		catch (e) {
+			return false;
+		}
+	})();
+	var localStorage_hasData = (function () {
+		try {
+			if(localStorage_isSupported){
+				if(localStorage.getItem("carLocation") !== null){
+					return true;
+				}else {
 					return false;
 				}
-			}
-			catch (e) {
+			} else {
 				return false;
 			}
-		})();
-		function initLocalStorage(){
-			var init_local_storage= {
-				"name": {
-					"fi": "Sorry, you did not save your car location",
-					"sv": "Sorry, you did not save your car location",
-					"en": "Sorry, you did not save your car location"
-				},"builtCapacity":{
-					"CAR": "No data",
-					"MOTORCYCLE": "No data",
-					"DISABLED": "No data",
-					"BICYCLE": "No data",
-				},
-				"location":{
-					"coordinates":[[[[0],[0]]]]
-				},
-				"free": true
-			};
-			localStorage.setItem('carLocation',JSON.stringify(init_local_storage));
-			localStorage.setItem('ticket',"No data");
-			localStorage.setItem('date',"No data");
-			localStorage.setItem('duration',"No data");
 		}
-		if(navigator.onLine && localStorage_isSupported) {
-			document.body.innerHTML='<my-app><img src="img/loading.gif" alt="loading" style ="position:fixed; display:block; top: 50%;left: 50%; transform: translate(-50%, -50%);"></my-app>';
-			if(!localStorage_hasData){
-				initLocalStorage();
-			}
-		}else {
-			var content='';
-			if(!navigator.onLine) {
-				content = '<div class="alert alert-danger" role="alert"  style="z-index: 10"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>You are offline<br>';
-				if(localStorage_hasData){
-					var object = JSON.parse(localStorage.getItem('carLocation'))
-					content+= 'Car location: '+ object.name.en + ' <br>Park time: ' + localStorage.getItem('date') ;
-				}else {
-					content+='Please check your internet connection';
-				}
-				content+='</div>';
-			}else if(!localStorage_isSupported){
-				content = '<div class="alert alert-danger" role="alert"  style="z-index: 10"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>Your current browser is not supported<br>Please update/change your browser</div>';
-			}
-			document.body.innerHTML=content;
+		catch (e) {
+			return false;
 		}
-	</script>
-	<script src="https://checkout.stripe.com/checkout.js"></script>
+	})();
+	function initLocalStorage(){
+		var init_local_storage= {
+			"name": {
+				"en": "No data",
+			},"location":{
+				"lat": "No data",
+				"lng": "No data",
+			},
+			"velocity": "No data"
+		};
+		localStorage.setItem('userLocation',JSON.stringify(init_local_storage));
+	}
+	if(navigator.onLine && localStorage_isSupported) {
+		document.body.innerHTML+='<my-app><img src="img/loading.gif" alt="loading" style ="position:fixed; display:block; top: 50%;left: 50%; transform: translate(-50%, -50%);"></my-app>';
+		if(!localStorage_hasData){
+			initLocalStorage();
+		}
+	}else {
+		var content='';
+		if(!navigator.onLine) {
+			content = '<div class="alert alert-danger" role="alert"  style="z-index: 10"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>You are offline<br>';
+			if(localStorage_hasData){
+				var object = JSON.parse(localStorage.getItem('carLocation'))
+				content+= 'Last location: '+ object.name.en;
+			}else {
+				content+='Please check your internet connection';
+			}
+			content+='</div>';
+		}else if(!localStorage_isSupported){
+			content = '<div class="alert alert-danger" role="alert"  style="z-index: 10"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span>Your current browser is not supported<br>Please update/change your browser</div>';
+		}
+		document.body.innerHTML=content;
+	}
+</script>
 </body>
 </html>
