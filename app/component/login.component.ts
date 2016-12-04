@@ -1,14 +1,13 @@
-<div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3 freeSpace">
-	<nav class="appNav">
-		<a href="#"  class="active" id = "loginBtn" ><img src="img/lock.png" alt="Login"></a><!--
-		!--><a href="#"  id = "registerBtn" ><img src="img/pen.png" alt="Register"></a>
-	</nav>
+import { Component, OnInit, ViewChild, trigger, state, style, animate, transition, Input} from '@angular/core';
+
+@Component({
+  selector: 'login-panel',
+  template: `<div class="col-xs-12 col-sm-12 col-md-6">
+	<div class="appNav">
+		<button class="active" id = "loginBtn" >LOGIN</button><!--
+		!--><button id = "registerBtn" >REGISTER</button>
+	</div>
 	<form method="post" id="login">
-		<div class="modal-header">
-			<h1 class="modal-title formTitle">
-				Login
-			</h1>
-		</div>
 		<div class="modal-body row">
 			<div class="col-xs-12 col-sm-12 col-md-12">
 				<div class="input-group">
@@ -34,11 +33,6 @@
 		</div>
 	</form>
 	<form method="post" id="register">
-		<div class="modal-header">
-			<h1 class="modal-title formTitle">
-				Register
-			</h1>
-		</div>
 		<div class="modal-body row">
 			<div class="col-xs-6 col-sm-6 col-md-6">
 				<div class="input-group">
@@ -49,26 +43,12 @@
 			<div class="col-xs-6 col-sm-6 col-md-6">
 				<div class="input-group">
 					<span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
-					<input type="number" class="form-control" id="goalWeightRegister" name="goalWeightRegister" placeholder="Goal of Weight" min="0.5" max="250" step="0.1" required/>
+					<input type="text" class="form-control" id="goalWeightRegister" name="goalWeightRegister" placeholder="Sensor Kit ID" required/>
 				</div>
 			</div>
 
 			<br>
 			<br>
-
-			<div class="col-xs-6 col-sm-6 col-md-6">
-				<div class="input-group">
-					<span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
-					<input type="number" class="form-control" id="heightRegister" name="heightRegister" placeholder="Your Height" min="0.01" max="2.5" step=0.01 required/>
-				</div>
-			</div>
-			<div class="col-xs-6 col-sm-6 col-md-6">
-				<div class="input-group">
-					<span class="input-group-addon"><span class="glyphicon glyphicon-pencil"></span></span>
-					<input type="number" class="form-control" id="goalDayRegister" name="goalDayRegister" placeholder="Day to achieve" min="1" max="365" required/>
-				</div>
-			</div>
-			<br><br>
 
 			<div class="col-xs-6 col-sm-6 col-md-6">
 				<div class="input-group">
@@ -96,4 +76,9 @@
 	<div id="result" class="center">
 
 	</div>
-</div>
+</div>`,
+  providers: []
+})
+
+export class LoginComponent{
+}

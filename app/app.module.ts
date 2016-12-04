@@ -5,6 +5,7 @@ import { TopNavigation } from './component/top.navigation.component';
 import { BlackOverlay } from './component/blackoverlay.component';
 import { UserComponent }  from './component/user.panel.component';
 import { SearchBar} from './component/search.bar.component';
+import { LoginComponent} from './component/login.component';
 import { AppComponent }  from './app.component';
 import { BikeComponent }  from './bikes/bike.component';
 
@@ -29,7 +30,7 @@ import { routing, appRoutingProviders }  from './app.routing';
     MapComponent,
     BikeComponent,
     UserComponent,
-    BlackOverlay,routing, SearchBar,TopNavigation],
+    BlackOverlay,routing, SearchBar,TopNavigation, LoginComponent],
     providers:[ MapService,BikeService],
     bootstrap: [AppComponent]
 })

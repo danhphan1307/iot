@@ -69,8 +69,12 @@ a{
     position:absolute;
     z-index: 2;
     width: 100%;
-    height: 90%;
-    background: rgba(0,0,0,0.4);
+    height: 100%;
+    background: rgba(95,225,250,0.7); /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, rgba(95,225,250,0.7), rgba(178,98,251,0.5)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, rgba(95,225,250,0.7), rgba(178,98,251,0.5)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, rgba(95,225,250,0.7), rgba(178,98,251,0.5)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, rgba(95,225,250,0.7), rgba(178,98,251,0.5)); /* Standard syntax */
 }
 
 .sidenav{
@@ -163,7 +167,7 @@ a{
     padding-top: 1vh;
     padding-bottom: 1vh;
     width: 100%;
-    background-color:#FFA807; 
+    background-color:#41C0BB; 
     text-transform: uppercase;  
     font-weight: bold;
 }
@@ -171,7 +175,7 @@ a{
     width: 100%;
     text-transform: uppercase;
     font-weight: bold;
-    color:#FFA807;
+    color:#41C0BB;
 }
 /*Side Nav CSS*/
 .slider.slider-horizontal {
@@ -339,7 +343,7 @@ h2{
 }
 
 .topNav li.active i, .topNav li.active span{
-    color:#FFA807;
+    color:#41C0BB;
 }
 .topNav li span{
     margin-top: -5px;
@@ -405,7 +409,7 @@ h2{
 }
 .locationPanel{
     width: 100%;
-    background: #FFA807;
+    background: #41C0BB;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -628,6 +632,70 @@ th{
     margin:auto;
     max-height: 7vh;
 }
+login-panel{
+    height: 100%;
+    position: absolute;
+    z-index: 2;
+    display:flex;justify-content:center;align-items:center;
+}
+login-panel form{
+    background:white;
+}
+.appNav button, .appNav button img{
+    height: 100%;
+}
+
+.appNav{
+    /*height: 10vh;*/
+    text-align: center;
+    background:rgba(119,158,203,0.7);
+    padding:0!important;
+    margin:0!important;
+    width:100%;
+}
+
+.appNav button{
+    text-align:center;
+    font-weight: bold;
+    display: inline-block;
+    padding:10px 0;
+    margin:0;
+    width:50%;
+    color:#ddd;
+    text-decoration: none;
+    vertical-align:middle;
+    outline: none;
+    color:white;
+}
+
+.appNav img{
+    margin-left:1vw;
+    padding:1vh 1vw;
+    height:100%;
+    -webkit-filter: brightness(90%);
+    filter: brightness(90%);
+}
+
+.appNav button:hover>img, .active >img{
+    -webkit-filter: brightness(100%)!important;
+    filter: brightness(100%);
+}
+
+button.active{
+    color:white!important;
+    font-weight: bold;
+    background-color:#41C0BB;
+}
+.appNav button:hover{
+    color:white;
+}
+.btn-primary{
+    color: #fff;
+    background-color: #41c0bb;
+    border-color: #41c0bb;
+
+}
+
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}

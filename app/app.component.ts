@@ -6,6 +6,7 @@ import {TopNavigation} from './component/top.navigation.component';
 import {BlackOverlay} from './component/blackoverlay.component';
 import {SearchBar} from './component/search.bar.component';
 import {UserComponent} from './component/user.panel.component';
+import {LoginComponent} from './component/login.component';
 import {BikeComponent} from './bikes/bike.component';
 import {AgmCoreModule} from 'angular2-google-maps/core';
 import {AlertComponent } from 'ng2-bootstrap/ng2-bootstrap';
@@ -47,6 +48,9 @@ export class AppComponent implements OnInit {
 
   @ViewChild(SearchBar)
   private SearchBar: SearchBar;
+  @ViewChild(LoginComponent)
+  private loginComponent: LoginComponent;
+
 
   stations : BikeStation[];
   data : string
