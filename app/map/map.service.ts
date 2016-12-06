@@ -19,6 +19,14 @@ export class MapService{
             icon: 'img/facilityCarIconLarge.png'
         }
     }
+    vehicle = {
+        DRIVING: {
+            color: '#FFA500'
+        },
+        BICYCLING: {
+            color: '#40BDB8'
+        }
+    }
 
     iconsBikeStation = {
         small: {
@@ -140,20 +148,22 @@ export class MapService{
             origin: _start,
             destination: _end,
             optimizeWaypoints: true,
-            travelMode: _mode,
+            travelMode: _mode
         },(result:any, status:any) => {
             this.renderDirections(_map, result, status, array,_vehicle)
         });
     }
 
-    renderDirections(_map:any, result:any,status:any,array:any, vehicle:string):any{
+    renderDirections(_map:any, result:any,status:any,array:any, _vehicle:string):any{
         if ( status == google.maps.DirectionsStatus.OK ) {
             var directionsRenderer = new google.maps.DirectionsRenderer({
                 map:_map,
                 draggable:true,
                 preserveViewport: true,
+                suppressMarkers: true,
+                suppressBicyclingLayer:true,
                 polylineOptions: {
-                    strokeColor: '#FFA500'
+                    strokeColor: this.vehicle[_vehicle].color
                 }
             });
             directionsRenderer.setDirections(result);

@@ -6,12 +6,13 @@ import { BlackOverlay } from './component/blackoverlay.component';
 import { UserComponent }  from './component/user.panel.component';
 import { SearchBar} from './component/search.bar.component';
 import { LoginComponent} from './component/login.component';
+import { Analyze} from './component/analystics.component';
 import { AppComponent }  from './app.component';
 import { BikeComponent }  from './bikes/bike.component';
-
+import { Info} from './component/info.panel';
 import { HttpModule }    from '@angular/http';
 import { AgmCoreModule } from 'angular2-google-maps/core';
-import {MapComponent} from './map/map.component';
+import { MapComponent} from './map/map.component';
 import { MapService } from './map/map.service';
 import { FormsModule } from '@angular/forms';
 import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
@@ -30,7 +31,7 @@ import { routing, appRoutingProviders }  from './app.routing';
     MapComponent,
     BikeComponent,
     UserComponent,
-    BlackOverlay,routing, SearchBar,TopNavigation, LoginComponent],
+    BlackOverlay,routing, SearchBar,TopNavigation, LoginComponent, Info, Analyze],
     providers:[ MapService,BikeService],
     bootstrap: [AppComponent]
 })

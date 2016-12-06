@@ -12,7 +12,7 @@ import { Component, OnInit, ViewChild, trigger, state, style, animate, transitio
 			<div class="col-xs-12 col-sm-12 col-md-12">
 				<div class="input-group">
 					<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-					<input type="text" class="form-control" id="usernameLogin" name="usernameLogin" placeholder="Username" required/>
+					<input type="text" class="form-control" id="username" name="username" placeholder="Username" required/>
 				</div>
 			</div>
 			<br><br>
@@ -20,7 +20,7 @@ import { Component, OnInit, ViewChild, trigger, state, style, animate, transitio
 			<div class="col-xs-12 col-sm-12 col-md-12">
 				<div class="input-group">
 					<span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-					<input class="form-control" type="password" id="passwordLogin" name="passwordLogin" placeholder="Password" required/>
+					<input class="form-control" type="password" id="password" name="password" placeholder="Password" required/>
 				</div>
 			</div>
 
@@ -34,16 +34,10 @@ import { Component, OnInit, ViewChild, trigger, state, style, animate, transitio
 	</form>
 	<form method="post" id="register">
 		<div class="modal-body row">
-			<div class="col-xs-6 col-sm-6 col-md-6">
+			<div class="col-xs-12 col-sm-12 col-md-12">
 				<div class="input-group">
 					<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
 					<input type="text" class="form-control" id="usernameRegister" name="usernameRegister" placeholder="Username" required/>
-				</div>
-			</div>
-			<div class="col-xs-6 col-sm-6 col-md-6">
-				<div class="input-group">
-					<span class="input-group-addon"><span class="glyphicon glyphicon-home"></span></span>
-					<input type="text" class="form-control" id="goalWeightRegister" name="goalWeightRegister" placeholder="Sensor Kit ID" required/>
 				</div>
 			</div>
 

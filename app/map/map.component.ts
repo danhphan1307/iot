@@ -91,14 +91,18 @@ export class MapComponent{
         var mapProp = {
             center: new google.maps.LatLng(this.centerLat, this.centerLon),
             zoom: 12,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            disableDefaultUI: true,
+            zoomControl: true,
         };
         this.map = new google.maps.Map(document.getElementById("mapCanvas"), mapProp);
         this.input = /** @type {!HTMLInputElement} */(document.getElementById('search_input'));
         this.autocomplete = new google.maps.places.Autocomplete(this.input);
         this.autocomplete.bindTo('bounds', this.map);
         var container_input = /** @type {!HTMLInputElement} */(document.getElementById('input-group'));
-        this.map.controls[google.maps.ControlPosition.TOP_LEFT].push(container_input);
+        this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(container_input);
+        var info_panel = /** @type {!HTMLInputElement} */(document.getElementById('info_panel'));
+        this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(info_panel);
     }
 
 
@@ -109,12 +113,6 @@ export class MapComponent{
         this.map.panTo(center);
         var _map = this.map; // need this line to make sure that the map is loaded.
         this.centerMarker = this.service.placeMarker(this.map, this.centerLat, this.centerLon,"default");
-        
-        document.getElementById("gettingLocation").style.opacity = '0';
-        
-        setTimeout(()=>{
-            document.getElementById("gettingLocation").style.display = 'none';
-        },250)
         /*
         *Search bar
         */
@@ -144,6 +142,18 @@ export class MapComponent{
             marker.setPosition(place.geometry.location);
             marker.setVisible(true);
             this.clearDirection();
+            this.showDirection(marker);
+            google.maps.event.addDomListener(document.getElementById('close_search'),'click',()=>{
+                (<HTMLInputElement>document.getElementById('search_input')).value = '';
+                this.infowindowDestination.close();
+                marker.setVisible(false);
+                this.clearDirection();
+            });
+            google.maps.event.addListener(marker, 'click', ()=>{
+                this.clearDirection();
+                this.showDirection(marker);
+            });
+            /*
             var address = '';
             if (place.address_components) {
                 address = [
@@ -166,12 +176,8 @@ export class MapComponent{
             });
 
             google.maps.event.addDomListener(document.getElementById('markerSearch'),'click',()=>{
-                if(this.router.url == "/parkandride"){
-                    this.showDirection(marker);
-                } else {
-                    this.showDirection(marker,false);
-                }
-            });
+                this.showDirection(marker);
+            });*/
         });
         /*
         *End of Search bar
@@ -270,6 +276,11 @@ export class MapComponent{
         var current = new google.maps.LatLng(this.centerLat,this.centerLon);
         var destination = marker.getPosition();
         this.clearDirection();
-        this.service.directionsService(this.map, current, destination, this.directionArray,'BICYCLING',google.maps.DirectionsTravelMode.BICYCLING);
+        if(this.router.url == "/station"){
+            this.service.directionsService(this.map, current, destination, this.directionArray,'DRIVING',google.maps.DirectionsTravelMode.DRIVING);   
+        } else {
+            this.service.directionsService(this.map, current, destination, this.directionArray,'BICYCLING',google.maps.DirectionsTravelMode.BICYCLING);
+        }
+        
     }
 }

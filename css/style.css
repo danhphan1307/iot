@@ -10,51 +10,89 @@ html{
 body {
     height: 100%;
     width: 100%;
-    overflow:hidden;
     margin: 0px;
     z-index: 0;
+    overflow:hidden;
 }
 
 a{
     text-decoration: none!important;
     outline:0!important;
 }
+.topNav{
+    border-top:1px solid #ddd;
+}
+.topNav *{
+    z-index: 2;
+}
+#mapCanvas{
+    margin: 0;
+    padding: 0;
+    height: auto;
+}
+#app-logo{
+    width: 100%;
+    max-width: 100px;
+    margin-left: 10px;
+}
 
 @media all and (orientation:landscape) {
     #mapCanvas{
-        margin: 0;
-        padding: 0;
         min-height: 88%;
-        height: auto;
     }
     .topNav{
-        border-top:1px solid #ddd;
         height: 12%;
     }
-    .topNav li{
-        width: 10%;
+    .userInfo{
+        padding-top: 12vh;
     }
-    .topNav li:first-of-type{
-        width: 70%;
+    .bottomDiv{
+        padding-top: 12vh;
     }
+}
+
+@media screen and (min-height: 500px){
+ .topNav{
+    height: 7%;
+}
+@media screen and (max-width: 315px){
+    .topNav li div {
+        display:none!important;
+    }
+}
+
+@media screen and (min-width: 400px){
+    #app-logo{
+        max-width: 140px;
+    }
+}
+@media screen and (min-width: 800px){
+    #app-logo{
+        max-width: 170px;
+    }
+}
+@media screen and (min-width: 1000px){
+    #app-logo{
+        max-width: 200px;
+    }
+}
+#mapCanvas{
+    min-height: 93%;
+}
 }
 
 @media all and (orientation:portrait) {
     #mapCanvas{
-        margin: 0;
-        padding: 0;
         min-height: 92%;
-        height: auto;
     }
     .topNav{
-        border-top:1px solid #ddd;
         height: 8%;
     }
-    .topNav li{
-        width: 18%;
+    .userInfo{
+        padding-top: 8vh;
     }
-    .topNav li:first-of-type{
-        width: 46%;
+    .bottomDiv{
+        padding-top: 8vh;
     }
 }
 
@@ -76,29 +114,7 @@ a{
     background: -moz-linear-gradient(right, rgba(95,225,250,0.7), rgba(178,98,251,0.5)); /* For Firefox 3.6 to 15 */
     background: linear-gradient(to right, rgba(95,225,250,0.7), rgba(178,98,251,0.5)); /* Standard syntax */
 }
-
-.sidenav{
-    height: 100%;
-    width: 70%;
-    max-width:350px;
-    position: fixed;
-    z-index: 3;
-    top: 0;
-    left: -70%;
-    overflow-x: hidden;
-    background: white;
-}
-
 /* The navigation menu links */
-
-#app-logo{
-    display: block;
-    margin:auto;
-    margin-top:5%;
-    margin-bottom:5%;
-    width: 100%;
-    max-width: 150px;
-}
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
@@ -107,46 +123,8 @@ a{
     height:100%;
 }
 
-#controlNav h1{
-    color:#464962;
-    margin: 0;
-    font-size:1.3em;
-    margin-left: 15px;
-    width:43%;
-    display:inline-block;
-}
-#controlNav #heart{
-    color:#FD7B7D;
-    font-size:2em;
-    margin-right:3%;
-    cursor:pointer;
-    display:inline-block;
-}
-#controlNav #navigate{
-    color:#ca789d;
-    font-size:2em;
-    margin-right:3%;
-    cursor:pointer;
-    display:inline-block;
-    position: absolute;
-    right:0;
-    top: 25%;
-}
-
-#cog_icon{
-    box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px;
-    border-radius: 2px;
-    margin-left:7px;
-    margin-bottom:10px;
-}
-
-#controlNav img{
-    position: relative;
-    display:inline-block;
-    /*margin-left:45%;*/
-}
-
 #gettingLocation{
+    display:none;
     background-color: white;
     position: absolute;
     top: 40vh;
@@ -323,7 +301,6 @@ h2{
     height: 100%;
 }
 .topNav ul{
-    width: 100%;
     height: 100%;
     margin:0;
 }
@@ -345,10 +322,17 @@ h2{
 .topNav li.active i, .topNav li.active span{
     color:#41C0BB;
 }
+.topNav .fa-2x{
+    font-size:1.5em;
+}
 .topNav li span{
-    margin-top: -5px;
     width: 100%;
-    font-size:10px;
+    font-size:0.8em;
+}
+.topNav a img{
+    position:relative;
+    top:50%;
+    transform:translateY(-50%);
 }
 .topNav li div{
     height: 100%;
@@ -510,8 +494,21 @@ th{
     position: relative;
     max-width: 64px;
 }
+.userInfo{
+    z-index: 1;
+    position: absolute;
+    height: 0;
+    width: 100%;
+    background-color: white;
+    transition: .5s;
+    bottom: 0;
+}
+#myChart{
+    padding-top: 0;
+}
 .bottomDiv{
-    z-index: 2;
+    overflow-y: scroll;
+    z-index: 1;
     position: absolute;
     height: 0;
     width: 100%;
@@ -526,35 +523,60 @@ th{
     position: relative;
     font-weight: bold;
 }
-.bottomDiv .content{
-    margin-top:-50px;
-}
+
 #search_input_wrap{
     z-index: 1;
     position: absolute;
     top:11vh;
     animation: all 0.5s;
+
 }
 
 #input-group{
-    max-width:60vw;
+    width:30vw;
     margin-top: 10px;
+    margin-right:10px;
 }
 
 #search_input{
+    padding-right:20px;
+    display:block; 
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
-    background-color: rgb(255,255,255);
+    background-color: rgba(0,0,0,0.3);
     font-family: Roboto;
     height: 39px;
+    -webkit-transition: all 0.7s ease 0s;
+    -moz-transition: all 0.7s ease 0s;
+    -o-transition: all 0.7s ease 0s;
+    transition: all 0.7s ease 0s;
 }
 
 #search_input:focus {
+    background-color: rgb(255,255,255);
     border-color: #4d90fe;
 }
+#search_input::-webkit-input-placeholder {
+   color: #fff!important;
+}
+
+#search_input:-moz-placeholder { /* Firefox 18- */
+   color: #fff!important;  
+}
+
+#search_input::-moz-placeholder {  /* Firefox 19+ */
+   color: #fff!important;  
+}
+
+#search_input:-ms-input-placeholder {  
+   color: #fff!important;  
+}
 #close_search{
+    z-index: 3;
     height: 39px;
+    margin-top: 12px;
+    margin-left: -20px;
 }
 #arrowDown{
     background-color: white;
@@ -635,7 +657,7 @@ th{
 login-panel{
     height: 100%;
     position: absolute;
-    z-index: 2;
+    z-index: 3;
     display:flex;justify-content:center;align-items:center;
 }
 login-panel form{
@@ -694,6 +716,36 @@ button.active{
     background-color: #41c0bb;
     border-color: #41c0bb;
 
+}
+.alert{
+    margin-bottom: 0;
+}
+.alert-danger,.alert-success {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    display: block;
+    top: 0 ;
+    left: 0;
+    transform: none;
+}
+#info_panel{
+    font-size:1.1em;
+    min-width: 30vw;
+    margin-right:10px;
+    background-color: rgba(0,0,0,0.3);
+    color:white;
+}
+.bicylingInfo{
+    padding: 10px;
+}
+
+#info_panel .title{
+    text-align: center;
+    width: 100%;
+    padding-top:5px;
+    padding-bottom:5px;
+    background-color: #40bdb8;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */

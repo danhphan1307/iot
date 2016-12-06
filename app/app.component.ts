@@ -1,11 +1,14 @@
 import { Component, OnInit,  Input, Output, trigger, state, style, transition, animate, ViewChild, ElementRef, Renderer, ViewContainerRef, EventEmitter} from '@angular/core';
+import {Observable} from 'rxjs/Rx';
 import {BikeService } from './bikes/bike.service';
 import {BikeStation} from './bikes/bike';
 import {MapComponent} from './map/map.component';
 import {TopNavigation} from './component/top.navigation.component';
 import {BlackOverlay} from './component/blackoverlay.component';
+import {Info} from './component/info.panel';
 import {SearchBar} from './component/search.bar.component';
 import {UserComponent} from './component/user.panel.component';
+import {Analyze} from './component/analystics.component';
 import {LoginComponent} from './component/login.component';
 import {BikeComponent} from './bikes/bike.component';
 import {AgmCoreModule} from 'angular2-google-maps/core';
@@ -19,6 +22,19 @@ import {Router} from '@angular/router';
 declare var google: any;
 declare var Slider: any;
 
+function userExist() {
+  try {
+    if(localStorage.getItem("userInfo") !== null){
+      return true;
+    }else {
+      return false;
+    }
+  }
+  catch (e) {
+    return false;
+  }
+};
+
 @Component({
   selector: 'my-app',
   templateUrl: './app.component.html',
@@ -28,6 +44,7 @@ declare var Slider: any;
 export class AppComponent implements OnInit {
   private viewContainerRef: ViewContainerRef;
   public onlineOffline: boolean = navigator.onLine;
+  bRegister:boolean = false;
   router:Router;
   bMapDone:boolean = false;
 
@@ -45,6 +62,8 @@ export class AppComponent implements OnInit {
 
   @ViewChild(UserComponent)
   private UserComponent: UserComponent;
+  @ViewChild(Analyze)
+  private analyze: Analyze;
 
   @ViewChild(SearchBar)
   private SearchBar: SearchBar;
@@ -63,6 +82,14 @@ export class AppComponent implements OnInit {
 
   ngOnInit(){
     this.blackOverlay.setState('full');
+    if(!userExist()){
+      let timer = Observable.timer(2000,1000);
+      timer.subscribe(()=> {
+        this.register();
+      });
+    }else {
+      this.bRegister = true;
+    }
   }
 
   constructor(private _router: Router, viewContainerRef:ViewContainerRef ) {
@@ -83,18 +110,32 @@ export class AppComponent implements OnInit {
       this.topNavOpen();
     }
   }
-  options = ['bike','station', 'user'];
+  options = ['bike','station', 'user', 'analyze'];
   setButtonOnOff(_element:any, _status:string){
     for (var i = 0; i< _element.length; i++){
       (<HTMLInputElement>document.getElementById(_element[i])).style.pointerEvents = _status;
     }
   }
 
+  public register(){
+    if(!userExist()){
+      this.bRegister = false;
+    }else {
+      this.bRegister = true;
+    }
+
+  }
+
   public topNavOpen(){
     if(this.bMapDone){
       if(this.router.url == '/user' ){
+        this.analyze.setState('close');
         this.blackOverlay.setState('open');
         this.UserComponent.setState('open');
+      }else if(this.router.url == '/analyze' ){
+        this.UserComponent.setState('close');
+        this.blackOverlay.setState('open');
+        this.analyze.setState('open');
       }else {
         this.setButtonOnOff(this.options,'none');
         this.reset();
@@ -103,8 +144,7 @@ export class AppComponent implements OnInit {
           this.MapComponent.center(this.MapComponent.centerLat, this.MapComponent.centerLon, ():void =>{
             this.setButtonOnOff(this.options,'auto');
           });
-        }
-        else if(this.router.url == "/station"){
+        }else if(this.router.url == "/station"){
           this.displayBikes();
           this.MapComponent.center(this.lat,this.long,():void =>{
             this.setButtonOnOff(this.options,'auto');
@@ -121,7 +161,8 @@ export class AppComponent implements OnInit {
   }
 
   reset(){
-    this.blackOverlay.setState('close');
+    //this.blackOverlay.setState('close');
+    this.analyze.setState('close');
     this.UserComponent.setState('close');
     this.MapComponent.clearMarkers();
     this.MapComponent.clearDirection();

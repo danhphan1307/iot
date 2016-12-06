@@ -1,5 +1,6 @@
-<login-panel></login-panel>
-<blackoverlay (click)="closeAll()"></blackoverlay>
+<login-panel [hidden]="bRegister"></login-panel>
+<info id ="info_panel"></info>
+<blackoverlay [hidden] ="bRegister"></blackoverlay>
 <top-nav (click)="topNavOpen()" ></top-nav>
 <div id="gettingLocation">
 	<div class="title">Getting your location</div>
@@ -8,9 +9,9 @@
 </div>
 
 <search-bar></search-bar>
-<div id="direction"></div>
 <map-gg (saveUpdated) = "UserComponent.updateSave($event)" (doneLoading)="loadData($event)"></map-gg>
 <my-bike ></my-bike>
 <user-panel></user-panel>
+<analyze></analyze>
 <router-outlet></router-outlet>
 
