@@ -24,10 +24,10 @@ import {BlackOverlay} from '../component/blackoverlay.component';
   <span>Analytics</span>
   </div>
   </li>
-  <li routerLink="/user" routerLinkActive="active" id="user">
-  <div>
-  <i class="fa fa-user-o fa-2x custom-i"></i>
-  <span>User Info</span>
+  <li>
+  <div (click)="logout()">
+  <i class="fa fa-sign-out fa-2x custom-i"></i>
+  <span>Logout</span>
   </div>
   </li>
   </ul>
@@ -37,5 +37,8 @@ import {BlackOverlay} from '../component/blackoverlay.component';
   `
 })
 export class TopNavigation  extends AbstractComponent{
-
+  logout(){
+    localStorage.removeItem('userInfo');
+    window.location.reload();
+  }
 }

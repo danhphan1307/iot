@@ -3,8 +3,6 @@ import {AbstractComponent} from './abstract.class.component';
 import {BlackOverlay} from '../component/blackoverlay.component';
 import {Coords} from '../models/location';
 
-declare var Chart:any;
-
 @Component({
   selector: 'analyze',
   animations: [
@@ -15,64 +13,40 @@ declare var Chart:any;
     transition("open <=> close", animate( "250ms" )),
     ])
   ],
-  template: `<div class="bottomDiv" [@animationBottomNav]="state">
+  template: `<div class="bottomDiv userInfo" [@animationBottomNav]="state">
+  <div class="container">
+  <div class="row">
+  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 panel">
+  <div class="inner">
+  <img src="../img/bicycling.jpg" alt="bicycling">
+  <i class="fa fa-user" aria-hidden="true"></i> {{name}}<br>
+  <i class="fa fa-map-marker" aria-hidden="true"></i> {{location}}<br>
+  <button class="">Password</button>
+  </div>
+  </div>
+  <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 chartDiv">
+  <label for = "myChart">
+  Chart 1<br />
+  </label>
   <canvas id="myChart"></canvas>
+  <label for = "myChart2">
+  Chart 2<br />
+  </label>
+  <canvas id="myChart2"></canvas>
+  </div>
+  </div>
+  </div>
   </div>`,
   providers: []
 })
 
 export class Analyze extends AbstractComponent implements OnInit {
   name:string = "No data";
-  time:any;
+  location: string = "No data";
 
   ngOnInit(){
-    var object = JSON.parse(localStorage.getItem('userLocation'));
-    this.name = object.name.en;
-    var ctx = document.getElementById("myChart");
-    var myChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
-          backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)'
-          ],
-          borderColor: [
-          'rgba(255,99,132,1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)'
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero:true
-            }
-          }]
-        }
-      }
-    });
-  }
+    (localStorage.getItem('userInfo'))?this.name = localStorage.getItem('userInfo'):this.name;
+    (localStorage.getItem('userLastLocation'))?this.location = localStorage.getItem('userLastLocation'):this.location;
 
-  updateSave(event:any){
-    if(event!=null){
-      this.name = event.name;
-    }else {
-      this.name = "No data";
-    }
   }
-
 }

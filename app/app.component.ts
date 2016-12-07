@@ -21,6 +21,7 @@ import {Router} from '@angular/router';
 
 declare var google: any;
 declare var Slider: any;
+declare var Chart:any;
 
 function userExist() {
   try {
@@ -82,6 +83,81 @@ export class AppComponent implements OnInit {
 
   ngOnInit(){
     this.blackOverlay.setState('full');
+    var ctx = document.getElementById("myChart");
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        datasets: [{
+          label: '# of Votes',
+          data: [12, 19, 3, 5, 2, 3],
+          backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero:true
+            }
+          }]
+        }
+      }
+    });
+
+    var ctx2 = document.getElementById("myChart2");
+    var myChart2 = new Chart(ctx2, {
+      type: 'bar',
+      data: {
+        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        datasets: [{
+          label: '# of Votes',
+          data: [12, 19, 3, 5, 2, 3],
+          backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+          'rgba(255,99,132,1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero:true
+            }
+          }]
+        }
+      }
+    });
     if(!userExist()){
       let timer = Observable.timer(2000,1000);
       timer.subscribe(()=> {
@@ -101,7 +177,7 @@ export class AppComponent implements OnInit {
 
   public closeAll():void{
     this.blackOverlay.setState('close');
-    this.UserComponent.setState('close');
+    //this.UserComponent.setState('close');
   }
 
   public loadData(event:boolean){    //call only if map is completely loaded. receive boolean true
@@ -110,7 +186,7 @@ export class AppComponent implements OnInit {
       this.topNavOpen();
     }
   }
-  options = ['bike','station', 'user', 'analyze'];
+  options = ['bike','station', 'analyze'];
   setButtonOnOff(_element:any, _status:string){
     for (var i = 0; i< _element.length; i++){
       (<HTMLInputElement>document.getElementById(_element[i])).style.pointerEvents = _status;
@@ -127,13 +203,8 @@ export class AppComponent implements OnInit {
   }
 
   public topNavOpen(){
-    if(this.bMapDone){
-      if(this.router.url == '/user' ){
-        this.analyze.setState('close');
-        this.blackOverlay.setState('open');
-        this.UserComponent.setState('open');
-      }else if(this.router.url == '/analyze' ){
-        this.UserComponent.setState('close');
+    if(this.bMapDone && localStorage.getItem('userInfo')){
+      if(this.router.url == '/analyze' ){
         this.blackOverlay.setState('open');
         this.analyze.setState('open');
       }else {
@@ -163,7 +234,6 @@ export class AppComponent implements OnInit {
   reset(){
     //this.blackOverlay.setState('close');
     this.analyze.setState('close');
-    this.UserComponent.setState('close');
     this.MapComponent.clearMarkers();
     this.MapComponent.clearDirection();
   }

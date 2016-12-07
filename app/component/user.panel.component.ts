@@ -16,16 +16,28 @@ declare var Chart:any;
     ])
   ],
   template: `<div class="userInfo" [@animationUserInfo]="state">
-  ABCD
+  <div class="container">
+  <div class="row">
+  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4 panel">
+  <img src="../img/bicycling.jpg" alt="bicycling">
+  <br>
+  {{name}}<br>
+  Last location: {{location}}<br>
+  <button class="">Log out</button>
+  </div>
+  </div>
+  </div>
   </div>`,
   providers: []
 })
 
 export class UserComponent extends AbstractComponent implements OnInit {
   name:string = "No data";
+  location: string = "No data";
   time:any;
 
   ngOnInit(){
-    
+    (localStorage.getItem('userInfo'))?this.name = localStorage.getItem('userInfo'):this.name;
+    (localStorage.getItem('userLastLocation'))?this.location = localStorage.getItem('userLastLocation'):this.location;
   }
 }

@@ -12,7 +12,6 @@ body {
     width: 100%;
     margin: 0px;
     z-index: 0;
-    overflow:hidden;
 }
 
 a{
@@ -44,20 +43,24 @@ a{
         height: 12%;
     }
     .userInfo{
-        padding-top: 12vh;
+        top: 12vh;
     }
     .bottomDiv{
-        padding-top: 12vh;
+        top: 12vh;
     }
 }
 
 @media screen and (min-height: 500px){
- .topNav{
+   .topNav{
     height: 7%;
 }
-@media screen and (max-width: 315px){
-    .topNav li div {
-        display:none!important;
+}
+@media screen and (max-width: 320px){
+    .userInfo .container .inner{
+        margin-right: 0!important;
+    }
+    .userInfo .container .col-sm-3, .userInfo .container .col-sm-9{
+        width: 100%;
     }
 }
 
@@ -76,10 +79,6 @@ a{
         max-width: 200px;
     }
 }
-#mapCanvas{
-    min-height: 93%;
-}
-}
 
 @media all and (orientation:portrait) {
     #mapCanvas{
@@ -89,10 +88,10 @@ a{
         height: 8%;
     }
     .userInfo{
-        padding-top: 8vh;
+        top: 8vh;
     }
     .bottomDiv{
-        padding-top: 8vh;
+        top: 8vh;
     }
 }
 
@@ -558,19 +557,19 @@ th{
     border-color: #4d90fe;
 }
 #search_input::-webkit-input-placeholder {
-   color: #fff!important;
+ color: #fff!important;
 }
 
 #search_input:-moz-placeholder { /* Firefox 18- */
-   color: #fff!important;  
+ color: #fff!important;  
 }
 
 #search_input::-moz-placeholder {  /* Firefox 19+ */
-   color: #fff!important;  
+ color: #fff!important;  
 }
 
 #search_input:-ms-input-placeholder {  
-   color: #fff!important;  
+ color: #fff!important;  
 }
 #close_search{
     z-index: 3;
@@ -593,18 +592,18 @@ th{
     animation: all 0.5s;
 }
 #arrowUp{
-   background-color: white;
-   top:9vh;
-   z-index:1;
-   position: absolute;
-   width: auto;
-   max-width: 10vw;
-   text-align: center;
-   left: 0; 
-   right: 0; 
-   margin-left: auto; 
-   margin-right: auto;  
-   animation: all 0.5s;
+ background-color: white;
+ top:9vh;
+ z-index:1;
+ position: absolute;
+ width: auto;
+ max-width: 10vw;
+ text-align: center;
+ left: 0; 
+ right: 0; 
+ margin-left: auto; 
+ margin-right: auto;  
+ animation: all 0.5s;
 }
 .modal-dialog {
     margin-left: 10vw;
@@ -741,11 +740,75 @@ button.active{
 }
 
 #info_panel .title{
+    font-size: 15px;
     text-align: center;
     width: 100%;
     padding-top:5px;
     padding-bottom:5px;
     background-color: #40bdb8;
+}
+.userInfo{
+    color:rgba(255,255,255,0.7);
+    background: rgb(12, 51, 94); /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, rgb(12, 51, 94), rgb(34, 99, 121), rgb(70, 97, 105)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, rgb(12, 51, 94), rgb(34, 99, 121), rgb(70, 97, 105)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, rgb(12, 51, 94), rgb(34, 99, 121), rgb(70, 97, 105)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, rgb(12, 51, 94), rgb(34, 99, 121), rgb(70, 97, 105)); /* Standard syntax */
+}
+.userInfo .container{
+    min-height: 79%;
+    margin-top:15px;
+    margin-bottom: 15px;
+}
+.userInfo .container .row, .userInfo .container .col-sm-3, .userInfo .container .col-sm-9{
+    height: 100%;
+}
+.userInfo .container .col-sm-9{
+    text-align: center;
+}
+.userInfo .container .inner{
+    margin-right:10px;
+}
+.userInfo h2{
+    color: white;
+    text-transform: uppercase;
+    font-size: 2.2em;
+    margin-bottom: 2vh;
+}
+.userInfo i{
+    margin-left:10px;
+}
+.userInfo .panel, .chartDiv{
+    padding:0;
+    border-radius: 0;
+    background-color: rgba(255,255,255,0.4);
+    border:0;
+}
+.userInfo .inner{
+    background-color: rgba(255,255,255,0.4);
+    height: 100%;
+}
+.userInfo .panel{
+    background-color: transparent;
+}
+.userInfo button{
+    background-color: transparent;
+    border: 1px solid white;
+    margin-top: 10px;
+    padding: 3px 10px;
+    margin-bottom: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.userInfo .panel img{
+    margin-bottom:15px;
+    width: 100%;
+}
+
+.userInfo .row{
+    margin-right: 0;
+    margin-left: 0;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
