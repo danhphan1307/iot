@@ -211,7 +211,7 @@ export class AppComponent implements OnInit {
         this.setButtonOnOff(this.options,'none');
         this.reset();
         if(this.router.url == "/bike"){
-          this.MapComponent.clickMainMarker();
+          this.MapComponent.directionDestination();
           this.MapComponent.center(this.MapComponent.centerLat, this.MapComponent.centerLon, ():void =>{
             this.setButtonOnOff(this.options,'auto');
           });

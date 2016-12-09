@@ -185,6 +185,10 @@ export class MapComponent{
         this.doneLoading.emit(true);
     }
 
+    directionDestination(){
+        this.showDirection(this._desMarker);
+    }
+
     clickMainMarker(){
         google.maps.event.trigger(this.centerMarker, 'click');
     }
@@ -274,6 +278,7 @@ export class MapComponent{
         localStorage.setItem('estimateDistance','0');
         localStorage.setItem('estimateTime','0');
         localStorage.removeItem('destination');
+        localStorage.removeItem("timeStart") ;
         try {
             this._desMarker.setMap(null);
         }
