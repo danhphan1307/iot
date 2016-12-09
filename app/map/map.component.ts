@@ -41,6 +41,8 @@ export class MapComponent{
     centerMarker: any;
 
     directionArray:any[] = [];
+    _destination:any;
+    _desMarker:any;
 
     infowindowMainMarker = new google.maps.InfoWindow();
     infowindowFacility = new google.maps.InfoWindow();
@@ -94,6 +96,9 @@ export class MapComponent{
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             disableDefaultUI: true,
             zoomControl: true,
+            zoomControlOptions: {
+                position: google.maps.ControlPosition.LEFT_BOTTOM
+            },
         };
         this.map = new google.maps.Map(document.getElementById("mapCanvas"), mapProp);
         this.input = /** @type {!HTMLInputElement} */(document.getElementById('search_input'));
@@ -113,8 +118,26 @@ export class MapComponent{
         this.map.panTo(center);
         var _map = this.map; // need this line to make sure that the map is loaded.
         this.centerMarker = this.service.placeMarker(this.map, this.centerLat, this.centerLon,"default");
+
         /*
-        *Search bar
+        * Get from localStorage
+        */
+        if(localStorage.getItem('destination')!==null){
+            this._destination = JSON.parse(localStorage.getItem('destination'));
+            this._desMarker = new google.maps.Marker({
+                map:this.map,
+                anchorPoint: new google.maps.Point(0, -29)
+            });
+            this._desMarker.setIcon(this._destination.icon);
+            this._desMarker.setPosition(this._destination.position);
+            this.showDirection(this._desMarker);
+        }
+         /*
+        * End of getting from localStorage
+        */
+
+        /*
+        * Search bar
         */
         var marker = new google.maps.Marker({
             map: this.map,
@@ -130,6 +153,7 @@ export class MapComponent{
                 return;
             }
             // If the place has a geometry, then present it on a map.
+            this.clearLocalStorage();
             _map.setCenter(place.geometry.location);
 
             marker.setIcon(/** @type {google.maps.Icon} */({
@@ -140,44 +164,18 @@ export class MapComponent{
                 scaledSize: new google.maps.Size(35, 35)
             }));
             marker.setPosition(place.geometry.location);
+            var testObject = { 'icon': marker.icon, 'position': marker.getPosition()};
+            localStorage.setItem('destination',JSON.stringify(testObject));
             marker.setVisible(true);
             this.clearDirection();
             this.showDirection(marker);
-            google.maps.event.addDomListener(document.getElementById('close_search'),'click',()=>{
-                (<HTMLInputElement>document.getElementById('search_input')).value = '';
-                this.infowindowDestination.close();
-                marker.setVisible(false);
-                this.clearDirection();
-            });
-            google.maps.event.addListener(marker, 'click', ()=>{
-                this.clearDirection();
-                this.showDirection(marker);
-            });
-            /*
-            var address = '';
-            if (place.address_components) {
-                address = [
-                (place.address_components[0] && place.address_components[0].short_name || ''),
-                (place.address_components[1] && place.address_components[1].short_name || ''),
-                (place.address_components[2] && place.address_components[2].short_name || '')
-                ].join(' ');
-            }
-            var content = '<div class="searchInfo"><div class="title"><h3>'+ place.name + '</h3><img id="markerSearch" src="img/directionIcon.png" alt="direction icon" class="functionIcon"><br><span>'+address+ '</span></div>' ;
-            this.infowindowDestination.setContent(content);
-            this.infowindowDestination.open(_map, marker);
-            google.maps.event.addDomListener(document.getElementById('close_search'),'click',()=>{
-                (<HTMLInputElement>document.getElementById('search_input')).value = '';
-                this.infowindowDestination.close();
-                marker.setVisible(false);
-                this.clearDirection();
-            });
-            google.maps.event.addListener(marker, 'click', ()=>{
-                this.infowindowDestination.open(_map, marker);
-            });
-
-            google.maps.event.addDomListener(document.getElementById('markerSearch'),'click',()=>{
-                this.showDirection(marker);
-            });*/
+        });
+        google.maps.event.addDomListener(document.getElementById('close_search'),'click',()=>{
+            (<HTMLInputElement>document.getElementById('search_input')).value = '';
+            this.infowindowDestination.close();
+            marker.setVisible(false);
+            this.clearDirection();
+            this.clearLocalStorage();
         });
         /*
         *End of Search bar
@@ -270,6 +268,18 @@ export class MapComponent{
             }
         });
         return sResult;
+    }
+
+    clearLocalStorage(){
+        localStorage.setItem('estimateDistance','0');
+        localStorage.setItem('estimateTime','0');
+        localStorage.removeItem('destination');
+        try {
+            this._desMarker.setMap(null);
+        }
+        catch (e) {
+            return false;
+        }
     }
 
     private showDirection(marker: any = null, multiDirection:boolean = true){

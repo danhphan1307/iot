@@ -150,6 +150,8 @@ export class MapService{
             optimizeWaypoints: true,
             travelMode: _mode
         },(result:any, status:any) => {
+            localStorage.setItem('estimateDistance',result.routes[0].legs[0].distance.value);
+            localStorage.setItem('estimateTime',result.routes[0].legs[0].duration.value);
             this.renderDirections(_map, result, status, array,_vehicle)
         });
     }
