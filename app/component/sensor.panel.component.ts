@@ -14,8 +14,7 @@ import {Observable} from 'rxjs/Rx';
 	<div class="modal-body" id="modal-body">
 	<h4 class="modal-title" id="title">Change Sensor</h4><br>
 
-	<i class="fa fa-cogs" aria-hidden="true"></i> <input type="number" placeholder="Sensor ID" aria-describedby="sizing-addon2" id="input1"><br>
-	<i class="fa fa-lock" aria-hidden="true"></i> <input type="text" placeholder="Password" aria-describedby="sizing-addon2" id="input2"><br>
+	<i class="fa fa-cogs" aria-hidden="true"></i> <input type="text" placeholder="Device MAC" aria-describedby="sizing-addon2" id="input1" value="5c7f8702cfff0"><br>
 	<br>
 	<div id="crop">
 	<img src="img/waiting-respond.gif" alt="loading" id="waiting-respond"/>
@@ -58,10 +57,12 @@ export class Sensor{
 	 	this.lgModal.show();
 	 }
 	 login(): any{
-	 	if((<HTMLInputElement>document.getElementById('input1')).value=='' || !(/\S/.test((<HTMLInputElement>document.getElementById('input1')).value))||!(/\S/.test((<HTMLInputElement>document.getElementById('input2')).value))){
+	 	if((<HTMLInputElement>document.getElementById('input1')).value=='' || !(/\S/.test((<HTMLInputElement>document.getElementById('input1')).value))){
 	 		document.getElementById('error-log').innerText="Please check the input again";
 	 		document.getElementById("error-log").style.display = "block";
 	 	}else {
+	 		localStorage.setItem('sensor',(<HTMLInputElement>document.getElementById('input1')).value);
+	 		/*
 	 		document.getElementById("crop").style.height = '100px';
 	 		document.getElementById("error-log").style.display = "none";
 	 		document.getElementById("btn-success").style.display = "none";
@@ -91,6 +92,7 @@ export class Sensor{
 	 				document.getElementById('error-log').innerText="Cannot connect to the sensor";
 	 			}
 	 		});
+	 		*/
 	 	}
 	 }
 
@@ -98,6 +100,7 @@ export class Sensor{
 	 * [hideLgModal hide the modal]
 	 */
 	 hideLgModal() {
+	 	localStorage.removeItem('sensor');
 	 	this.lgModal.hide();
 	 }
 	}

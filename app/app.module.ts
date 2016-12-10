@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BikeService } from './bikes/bike.service';
 import { TopNavigation } from './component/top.navigation.component';
 import { BlackOverlay } from './component/blackoverlay.component';
-import { UserComponent }  from './component/user.panel.component';
 import { SearchBar} from './component/search.bar.component';
 import { LoginComponent} from './component/login.component';
 import { Analyze} from './component/analystics.component';
@@ -17,6 +16,7 @@ import { MapComponent} from './map/map.component';
 import { MapService } from './map/map.service';
 import { FormsModule } from '@angular/forms';
 import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { FilterPanel} from './component/filter.panel';
 
 import { routing, appRoutingProviders }  from './app.routing';
 
@@ -31,8 +31,7 @@ import { routing, appRoutingProviders }  from './app.routing';
     declarations: [ AppComponent,
     MapComponent,
     BikeComponent,
-    UserComponent,
-    BlackOverlay,routing, SearchBar,TopNavigation, LoginComponent, Info, Analyze, Sensor],
+    BlackOverlay,routing, SearchBar,TopNavigation, LoginComponent, Info, Analyze, Sensor,FilterPanel],
     providers:[ MapService,BikeService],
     bootstrap: [AppComponent]
 })

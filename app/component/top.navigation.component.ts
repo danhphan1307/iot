@@ -10,18 +10,18 @@ import {BlackOverlay} from '../component/blackoverlay.component';
   template:
   `<div class="topNav">
   <nav>
-  <a routerLink="/bike" routerLinkActive="active" id="bike"><img src="../img/logo.png" alt="app-logo" id="app-logo"></a>
+  <a routerLink="/bike" routerLinkActive="active"><img src="../img/logo.png" alt="app-logo" id="app-logo"></a>
   <ul class="pull-right" style="margin-right:10px;">
-  <li routerLink="/station" routerLinkActive="active" id="station">
+  <li routerLink="/bike" routerLinkActive="active">
   <div>
-  <i class="fa fa-map-marker fa-2x custom-i"></i>
-  <span>City Bikes</span>
+  <i class="fa fa-map-marker fa-2x custom-i" id="bike"></i>
+  <span>Location</span>
   </div>
   </li>
   <li routerLink="/analyze" routerLinkActive="active" id="analyze">
   <div>
   <i class="fa fa-area-chart fa-2x custom-i"></i>
-  <span>Analytics</span>
+  <span>Info</span>
   </div>
   </li>
   <li>
@@ -39,6 +39,7 @@ import {BlackOverlay} from '../component/blackoverlay.component';
 export class TopNavigation  extends AbstractComponent{
   logout(){
     localStorage.removeItem('userInfo');
+    localStorage.removeItem('sensor');
     window.location.reload();
   }
 }

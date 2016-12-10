@@ -104,10 +104,14 @@ export class MapComponent{
         this.input = /** @type {!HTMLInputElement} */(document.getElementById('search_input'));
         this.autocomplete = new google.maps.places.Autocomplete(this.input);
         this.autocomplete.bindTo('bounds', this.map);
+        var cog_icon = /** @type {!HTMLInputElement} */(document.getElementById('cog_icon'));
+        this.map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(cog_icon);
         var container_input = /** @type {!HTMLInputElement} */(document.getElementById('input-group'));
         this.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(container_input);
         var info_panel = /** @type {!HTMLInputElement} */(document.getElementById('info_panel'));
         this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(info_panel);
+        var filter_panel = /** @type {!HTMLInputElement} */(document.getElementById('filter'));
+        this.map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(filter_panel);
     }
 
 

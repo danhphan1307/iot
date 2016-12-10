@@ -9,8 +9,9 @@
 </div>
 
 <search-bar></search-bar>
+<img alt="config" id="cog_icon" src="../img/cog.png" (click) = "openHelper()" />
 <map-gg (saveUpdated) = "UserComponent.updateSave($event)" (doneLoading)="loadData($event)"></map-gg>
-<my-bike ></my-bike>
+<filter id="filter"></filter>
 <analyze></analyze>
 <router-outlet></router-outlet>
 

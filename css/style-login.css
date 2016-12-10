@@ -3,19 +3,6 @@
 	padding:0;
 	margin:0;
 }
-html, body {
-	height: 100%;
-}
-
-body {
-	overflow-x:hidden;
-	margin: 0px;
-	background:url("../img/theme.jpg") no-repeat center center fixed;
-	background-size: cover;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-}
 
 .freeSpace{
 	margin-top:1vh!important;

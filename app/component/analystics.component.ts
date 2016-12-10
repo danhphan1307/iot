@@ -22,19 +22,21 @@ import { Sensor} from '../component/sensor.panel.component';
   <img src="../img/bicycling.jpg" alt="bicycling">
   <i class="fa fa-user" aria-hidden="true"></i> {{name}}<br>
   <i class="fa fa-map-marker" aria-hidden="true"></i> {{location}}<br>
-  <button class="">Change Password</button>
   <button (click)="sensor.showLgModal()">Change Sensors</button>
   </div>
   </div>
   <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 chartDiv">
-  <label for = "myChart">
-  Chart 1<br />
-  </label>
+  <div [hidden]="hasSensor">
+  <div class="alert alert-danger">Please add sensor for analysis</div>
+  </div>
+  <div [hidden]="!hasSensor">
+  <div class="appNav">
+  <button class="active" id = "distanceBtn" >DISTANCE</button><!--
+  !--><button id = "caloriesBtn" >CALORIES</button>
+  </div>
   <canvas id="myChart"></canvas>
-  <label for = "myChart2">
-  Chart 2<br />
-  </label>
-  <canvas id="myChart2"></canvas>
+  <canvas id="myChart2" ></canvas>
+  </div>
   </div>
   </div>
   </div>
@@ -46,6 +48,7 @@ import { Sensor} from '../component/sensor.panel.component';
 export class Analyze extends AbstractComponent implements OnInit {
   name:string = "No data";
   location: string = "No data";
+  hasSensor:boolean = false;
   @ViewChild(Sensor)
   private sensor: Sensor;
 
@@ -53,6 +56,16 @@ export class Analyze extends AbstractComponent implements OnInit {
   ngOnInit(){
     (localStorage.getItem('userInfo'))?this.name = localStorage.getItem('userInfo'):this.name;
     (localStorage.getItem('userLastLocation'))?this.location = localStorage.getItem('userLastLocation'):this.location;
-
+    setInterval(()=>{
+      this.getData();
+    },1000);
   }
+  getData(){
+    if(localStorage.getItem("sensor") !== null){
+      this.hasSensor = true;
+    } else {
+      this.hasSensor = false;
+    }
+  }
+
 }

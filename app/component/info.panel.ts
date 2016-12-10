@@ -25,7 +25,12 @@ import { Component, OnInit, ViewChild, trigger, state, style, animate, transitio
   </table>
   <hr>
   <table>
-  <tr>
+  <tr [hidden] ="hasSensor">
+    <td colspan="2">
+      <div class="alert alert-danger">Please add sensors at Info</div>
+    </td>
+  </tr>
+  <tr [hidden] ="!hasSensor">
   <td>
   Current Speed
   </td>
@@ -33,7 +38,7 @@ import { Component, OnInit, ViewChild, trigger, state, style, animate, transitio
   {{speed}} km/h
   </td>
   </tr>
-  <tr>
+  <tr [hidden] ="!hasSensor">
   <td>
   Distance Left
   </td>
@@ -41,7 +46,7 @@ import { Component, OnInit, ViewChild, trigger, state, style, animate, transitio
   {{estimateDistance - pastDistance}} km
   </td>
   </tr>
-  <tr>
+  <tr [hidden] ="!hasSensor">
   <td>
   Time Pass
   </td>
@@ -49,7 +54,7 @@ import { Component, OnInit, ViewChild, trigger, state, style, animate, transitio
   {{printDiff(timePass)}}
   </td>
   </tr>
-  <tr>
+  <tr [hidden] ="!hasSensor">
   <td>
   Time Left
   </td>
@@ -57,7 +62,7 @@ import { Component, OnInit, ViewChild, trigger, state, style, animate, transitio
   {{distance/speed}} min
   </td>
   </tr>
-  <tr>
+  <tr [hidden] ="!hasSensor">
   <td>
   Burned Calories
   </td>
@@ -81,6 +86,7 @@ export class Info implements OnInit{
   avarage:number = 0 ;
   calories:number = 0;
   timePass:any = 1;
+  hasSensor:boolean=false;
 
   toggle(){
     this.open? this.open = false:this.open = true;
@@ -113,6 +119,12 @@ export class Info implements OnInit{
       if(localStorage.getItem("estimateTime") !== null){
         this.estimateTime = this.printDiff(Number(localStorage.getItem("estimateTime"))*1000);
       }
+      if(localStorage.getItem("sensor") !== null){
+        this.hasSensor = true;
+      }else {
+        this.hasSensor = false;
+      }
+      
       this.calculateCalories(this.speed);
     }
     catch (e) {

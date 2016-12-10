@@ -241,7 +241,7 @@ $(document).ready(function() {
 	loginURL = "https://iot-project-metropolia.eu-gb.mybluemix.net/api/group_1/login";
 	registerURL = "https://iot-project-metropolia.eu-gb.mybluemix.net/api/group_1/register";
 	token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiR1JPVVBfMSIsImFkbWluIjp0cnVlfQ.eKvUFe2OdsnZUfee8Xoi_vHixDOzs2rchkIFaegHE4E";
-	dataURL = "https://iot-project-metropolia.eu-gb.mybluemix.net/api/group_1/data/device";
+	dataURL = "https://iot-project-metropolia.eu-gb.mybluemix.net/api/group_1/magnetic";
 	function resetFormMessages(){
 		formMessages.removeClass();
 		formMessages.addClass('alert');
@@ -251,17 +251,17 @@ $(document).ready(function() {
 	function editLocalStorage(data){
 		localStorage.setItem('userInfo',data);
 	}
-	
-	$("#analyze").click(function(event){/*
+
+	$("#analyze").click(function(event){
 		$.ajax({
 			crossDomain: true,
-			type: 'POST',
+			type: 'GET',
 			headers: {
 				'Accept':'application/json'
 			},
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			url: dataURL,
-			data:{device_id:'1411'},
+			data:{mac:'1411fa'},
 			beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization',token); }
 		})
 
@@ -271,114 +271,52 @@ $(document).ready(function() {
 		.fail(function(data) {
 			
 		});
-		*/
-	});
-	$("#analyze").click(function(event){/*
-		$.ajax({
-			crossDomain: true,
-			type: 'POST',
-			headers: {
-				'Accept':'application/json'
-			},
-			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			url: dataURL,
-			data:{device_id:'1411'},
-			beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization',token); }
-		})
-
-		.done(function(response) {
-			console.log(response);
-		})
-		.fail(function(data) {
-			
-		});
-		*/
+		
 	});
 
 
-		$("#registerBtn").click(function(event){
-			event.preventDefault();
-			$('#login').slideUp();
-			$('#loginBtn').removeClass('active');
-			$('#register').slideDown();
-			$('#registerBtn').addClass('active');
-			resetFormMessages();
-		});
+	$("#registerBtn").click(function(event){
+		event.preventDefault();
+		$('#login').slideUp();
+		$('#loginBtn').removeClass('active');
+		$('#register').slideDown();
+		$('#registerBtn').addClass('active');
+		resetFormMessages();
+	});
 
-		$("#loginBtn").click(function(event){
-			event.preventDefault();
-			$('#registerBtn').removeClass('active');
-			$('#register').slideUp();
-			$('#login').slideDown();
-			$('#loginBtn').addClass('active');
-			resetFormMessages();
-		});
+	$("#loginBtn").click(function(event){
+		event.preventDefault();
+		$('#registerBtn').removeClass('active');
+		$('#register').slideUp();
+		$('#login').slideDown();
+		$('#loginBtn').addClass('active');
+		resetFormMessages();
+	});
 
-		$('#register').submit(function(event) {
-			event.preventDefault();
-			var formData = $('#register').serialize();
-			var obj = $('#register').serializeArray();
-			var _username = $("#usernameRegister").val();
-			var _password = sha256($("#passwordRegister").val());
-			resetFormMessages();
-			if (obj[1].value == obj[2].value){
-				formMessages.addClass('alert-success');
-				formMessages.append('<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> ');
-				formMessages.append('Sending data...<br>Please be patient.');
+	$("#caloriesBtn").click(function(event){
+		event.preventDefault();
+		$('#myChart2').fadeOut("slow");
+		$('#distanceBtn').removeClass('active');
+		$('#myChart').fadeIn("slow");
+		$('#caloriesBtn').addClass('active');
+	});
 
-				$.ajax({
-					crossDomain: true,
-					type: 'POST',
-					headers: {
-						'Accept':'application/json'
-					},
-					contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-					url: registerURL,
-					data: { username: _username, password: _password },
-					beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization',token); }
-				})
+	$("#distanceBtn").click(function(event){
+		event.preventDefault();
+		$('#myChart').fadeOut("slow");
+		$('#caloriesBtn').removeClass('active');
+		$('#myChart2').fadeIn("slow");
+		$('#distanceBtn').addClass('active');
+	});
 
-				.done(function(response) {
-					if(response.status=='success'){
-						editLocalStorage(_username);
-						formMessages.removeClass('alert-danger').addClass('alert-success');
-						formMessages.text('');
-						formMessages.append('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Register Successful');	
-					//document.location = 'bike';
-				} else{
-					formMessages.removeClass('alert-success').addClass('alert-danger');
-					formMessages.text('');
-					formMessages.append('<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> This username is taken');	
-				}
-
-			})
-				.fail(function(data) {
-					formMessages.removeClass('alert-success').addClass('alert-danger');
-					formMessages.text('');
-					formMessages.append('<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> This username is taken');
-					var errorLog = JSON.parse(data.responseText);
-					if (errorLog !== '') {
-						formMessages.append(errorLog.error);
-					} else {
-						formMessages.append('No Internet Connection.');
-					}
-				});
-
-			} else {
-				formMessages.addClass('alert-danger');
-				formMessages.append('<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>');
-				formMessages.append('Passwords do not match');
-			}
-
-		});
-
-		$('#login').submit(function(event) {
-			event.preventDefault();
-			var formData = $('#login').serialize();
-			var obj = $('#login').serializeArray();
-			var _username = $("#username").val();
-			var _password = sha256($("#password").val());
-			resetFormMessages();
+	$('#register').submit(function(event) {
+		event.preventDefault();
+		var formData = $('#register').serialize();
+		var obj = $('#register').serializeArray();
+		var _username = $("#usernameRegister").val();
+		var _password = sha256($("#passwordRegister").val());
+		resetFormMessages();
+		if (obj[1].value == obj[2].value){
 			formMessages.addClass('alert-success');
 			formMessages.append('<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> ');
 			formMessages.append('Sending data...<br>Please be patient.');
@@ -390,28 +328,29 @@ $(document).ready(function() {
 					'Accept':'application/json'
 				},
 				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-				url: loginURL,
+				url: registerURL,
 				data: { username: _username, password: _password },
 				beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization',token); }
 			})
 
 			.done(function(response) {
-				if(response.status=='Login success'){
+				if(response.status=='success'){
 					editLocalStorage(_username);
 					formMessages.removeClass('alert-danger').addClass('alert-success');
 					formMessages.text('');
-					formMessages.append('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Login Successful');
-				//document.location = 'bike';
-			} else{
-				formMessages.removeClass('alert-success').addClass('alert-danger');
-				formMessages.text('');
-				formMessages.append('<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> '+response);	
-			}
-		})
+					formMessages.append('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Register Successful');	
+					//document.location = 'bike';
+				} else{
+					formMessages.removeClass('alert-success').addClass('alert-danger');
+					formMessages.text('');
+					formMessages.append('<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> This username is taken');	
+				}
+
+			})
 			.fail(function(data) {
 				formMessages.removeClass('alert-success').addClass('alert-danger');
 				formMessages.text('');
-				formMessages.append('<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Login failed ');
+				formMessages.append('<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> This username is taken');
 				var errorLog = JSON.parse(data.responseText);
 				if (errorLog !== '') {
 					formMessages.append(errorLog.error);
@@ -419,5 +358,61 @@ $(document).ready(function() {
 					formMessages.append('No Internet Connection.');
 				}
 			});
+
+		} else {
+			formMessages.addClass('alert-danger');
+			formMessages.append('<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>');
+			formMessages.append('Passwords do not match');
+		}
+
+	});
+
+	$('#login').submit(function(event) {
+		event.preventDefault();
+		var formData = $('#login').serialize();
+		var obj = $('#login').serializeArray();
+		var _username = $("#username").val();
+		var _password = sha256($("#password").val());
+		resetFormMessages();
+		formMessages.addClass('alert-success');
+		formMessages.append('<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> ');
+		formMessages.append('Sending data...<br>Please be patient.');
+
+		$.ajax({
+			crossDomain: true,
+			type: 'POST',
+			headers: {
+				'Accept':'application/json'
+			},
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			url: loginURL,
+			data: { username: _username, password: _password },
+			beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization',token); }
+		})
+
+		.done(function(response) {
+			if(response.status=='Login success'){
+				editLocalStorage(_username);
+				formMessages.removeClass('alert-danger').addClass('alert-success');
+				formMessages.text('');
+				formMessages.append('<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Login Successful');
+				//document.location = 'bike';
+			} else{
+				formMessages.removeClass('alert-success').addClass('alert-danger');
+				formMessages.text('');
+				formMessages.append('<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> '+response);	
+			}
+		})
+		.fail(function(data) {
+			formMessages.removeClass('alert-success').addClass('alert-danger');
+			formMessages.text('');
+			formMessages.append('<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Login failed ');
+			var errorLog = JSON.parse(data.responseText);
+			if (errorLog !== '') {
+				formMessages.append(errorLog.error);
+			} else {
+				formMessages.append('No Internet Connection.');
+			}
 		});
 	});
+});

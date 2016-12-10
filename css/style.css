@@ -34,6 +34,10 @@ a{
     max-width: 100px;
     margin-left: 10px;
 }
+#cog_icon{
+    margin-left:10px;
+    width:28px;
+}
 
 @media all and (orientation:landscape) {
     #mapCanvas{
@@ -54,8 +58,17 @@ a{
  .topNav{
     height: 7%;
 }
+#mapCanvas{
+    min-height: 93%;
 }
-@media screen and (max-width: 320px){
+.userInfo{
+    top: 7vh;
+}
+.bottomDiv{
+    top: 7vh;
+}
+}
+@media screen and (max-width: 450px){
     .userInfo .container .inner{
         margin-right: 0!important;
     }
@@ -196,10 +209,10 @@ a{
   transition: .4s;
 }
 input:checked + .sliderIOS {
-  background-color: #2196F3;
+  background-color: #40bdb8;
 }
 input:focus + .sliderIOS {
-  box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px #40bdb8;
 }
 input:checked + .sliderIOS:before {
   -webkit-transform: translateX(28px);
@@ -454,8 +467,9 @@ h2{
 #filter{
     z-index: 1;
     position:absolute;
-    bottom:80px;
-    left: 7px!important;
+    bottom:145px;
+    margin-left: 10px;
+    margin-bottom:10px;
     background-color: white;
     padding-bottom:10px;
 }
@@ -471,7 +485,7 @@ h2{
     margin-right:10px;
 }
 th{
-    background-color: #789DCA;
+    background-color: rgb(64, 189, 184);
     text-transform: uppercase;
     padding-top:5px;
     padding-bottom: 5px;
@@ -504,6 +518,7 @@ th{
 }
 #myChart{
     padding-top: 0;
+    margin-bottom: 30px;
 }
 .bottomDiv{
     overflow-y: scroll;
@@ -532,9 +547,9 @@ th{
 }
 
 #input-group{
-    width:30vw;
+    min-width: 30vw;
     margin-top: 10px;
-    margin-right:10px;
+    margin-right: 10px;
 }
 
 #search_input{
@@ -571,6 +586,13 @@ th{
 #search_input:-ms-input-placeholder {  
    color: #fff!important;  
 }
+#search_input{
+   color: #fff!important;  
+}
+#search_input:active, #search_input:focus{
+   color: #000!important;  
+}
+
 #close_search{
     z-index: 3;
     height: 39px;
@@ -684,6 +706,7 @@ login-panel{
     z-index: 3;
     display:flex;justify-content:center;align-items:center;
 }
+
 login-panel form{
     background:white;
 }
@@ -776,12 +799,7 @@ button.active{
     background-color: #40bdb8;
 }
 .userInfo{
-    color:rgba(255,255,255,0.7);
-    background: rgb(12, 51, 94); /* For browsers that do not support gradients */
-    background: -webkit-linear-gradient(left, rgb(12, 51, 94), rgb(34, 99, 121), rgb(70, 97, 105)); /* For Safari 5.1 to 6.0 */
-    background: -o-linear-gradient(right, rgb(12, 51, 94), rgb(34, 99, 121), rgb(70, 97, 105)); /* For Opera 11.1 to 12.0 */
-    background: -moz-linear-gradient(right, rgb(12, 51, 94), rgb(34, 99, 121), rgb(70, 97, 105)); /* For Firefox 3.6 to 15 */
-    background: linear-gradient(to right, rgb(12, 51, 94), rgb(34, 99, 121), rgb(70, 97, 105)); /* Standard syntax */
+    background: rgb(234, 237, 242); /* For browsers that do not support gradients */
 }
 .userInfo .container{
     min-height: 79%;
@@ -806,22 +824,25 @@ button.active{
 .userInfo i{
     margin-left:10px;
 }
+.col-xs-3.col-sm-3.col-md-3.col-lg-3.panel{
+    box-shadow:none;
+    border:none;
+}
 .userInfo .panel, .chartDiv{
     padding:0;
-    border-radius: 0;
-    background-color: rgba(255,255,255,0.4);
     border:0;
 }
 .userInfo .inner{
-    background-color: rgba(255,255,255,0.4);
+    background: white;
     height: 100%;
 }
 .userInfo .panel{
     background-color: transparent;
 }
-.userInfo button{
-    background-color: transparent;
-    border: 1px solid white;
+.userInfo .inner button{
+    color:#41C0BB;
+    background: white;
+    border: 1px solid #41C0BB;
     margin-top: 10px;
     padding: 3px 10px;
     margin-bottom: 10px;
@@ -829,6 +850,10 @@ button.active{
     margin-left: auto;
     margin-right: auto;
     width: 92%;
+}
+.userInfo .inner button:active{
+    color:white;
+    background: #41C0BB;   
 }
 .userInfo .panel img{
     margin-bottom:15px;
@@ -838,6 +863,20 @@ button.active{
 .userInfo .row{
     margin-right: 0;
     margin-left: 0;
+}
+
+analyze label{
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background: #41C0BB;
+    color: white;
+    margin-bottom:0;
+}
+#myChart, #myChart2{
+    background:white;
+    position: absolute;
+    top: 40px;
 }
 
 /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */

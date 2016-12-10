@@ -7,14 +7,13 @@ import {TopNavigation} from './component/top.navigation.component';
 import {BlackOverlay} from './component/blackoverlay.component';
 import {Info} from './component/info.panel';
 import {SearchBar} from './component/search.bar.component';
-import {UserComponent} from './component/user.panel.component';
 import {Analyze} from './component/analystics.component';
 import {LoginComponent} from './component/login.component';
-import {BikeComponent} from './bikes/bike.component';
 import {AgmCoreModule} from 'angular2-google-maps/core';
 import {AlertComponent } from 'ng2-bootstrap/ng2-bootstrap';
 import {NgModel} from '@angular/forms';
 import {Coords} from './models/location';
+import {FilterPanel} from './component/filter.panel';
 
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
@@ -52,17 +51,15 @@ export class AppComponent implements OnInit {
   @ViewChild(MapComponent)
   private MapComponent:MapComponent;
 
+  @ViewChild(FilterPanel)
+  private filter:FilterPanel;
+
   @ViewChild(TopNavigation)
   private topNav:TopNavigation;
 
   @ViewChild(BlackOverlay)
   private blackOverlay: BlackOverlay;
 
-  @ViewChild(BikeComponent)
-  private BikeComponent: BikeComponent;
-
-  @ViewChild(UserComponent)
-  private UserComponent: UserComponent;
   @ViewChild(Analyze)
   private analyze: Analyze;
 
@@ -83,13 +80,14 @@ export class AppComponent implements OnInit {
 
   ngOnInit(){
     this.blackOverlay.setState('full');
+    this.filter.load(this.MapComponent);
     var ctx = document.getElementById("myChart");
     var myChart = new Chart(ctx, {
-      type: 'bar',
+      type: 'line',
       data: {
         labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
         datasets: [{
-          label: '# of Votes',
+          label: 'Calories',
           data: [12, 19, 3, 5, 2, 3],
           backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
@@ -127,7 +125,7 @@ export class AppComponent implements OnInit {
       data: {
         labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
         datasets: [{
-          label: '# of Votes',
+          label: 'Distance',
           data: [12, 19, 3, 5, 2, 3],
           backgroundColor: [
           'rgba(255, 99, 132, 0.2)',
@@ -186,7 +184,7 @@ export class AppComponent implements OnInit {
       this.topNavOpen();
     }
   }
-  options = ['bike','station', 'analyze'];
+  options = ['bike', 'analyze'];
   setButtonOnOff(_element:any, _status:string){
     for (var i = 0; i< _element.length; i++){
       (<HTMLInputElement>document.getElementById(_element[i])).style.pointerEvents = _status;
@@ -215,20 +213,16 @@ export class AppComponent implements OnInit {
           this.MapComponent.center(this.MapComponent.centerLat, this.MapComponent.centerLon, ():void =>{
             this.setButtonOnOff(this.options,'auto');
           });
-        }else if(this.router.url == "/station"){
-          this.displayBikes();
-          this.MapComponent.center(this.lat,this.long,():void =>{
-            this.setButtonOnOff(this.options,'auto');
-          });
         }
+        //incase there are some more components adding later
       }
     }
   }
 
 
   /* Methods for displaying markers*/
-  displayBikes(){
-    this.BikeComponent.loadBikeStations(this.MapComponent);
+  openHelper(){
+    this.filter.OpenPanel('Bike');
   }
 
   reset(){
