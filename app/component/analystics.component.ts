@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, trigger, state, style, animate, transitio
 import {AbstractComponent} from './abstract.class.component';
 import {BlackOverlay} from '../component/blackoverlay.component';
 import {Coords} from '../models/location';
+import { Sensor} from '../component/sensor.panel.component';
 
 @Component({
   selector: 'analyze',
@@ -21,7 +22,8 @@ import {Coords} from '../models/location';
   <img src="../img/bicycling.jpg" alt="bicycling">
   <i class="fa fa-user" aria-hidden="true"></i> {{name}}<br>
   <i class="fa fa-map-marker" aria-hidden="true"></i> {{location}}<br>
-  <button class="">Password</button>
+  <button class="">Change Password</button>
+  <button (click)="sensor.showLgModal()">Change Sensors</button>
   </div>
   </div>
   <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 chartDiv">
@@ -36,13 +38,17 @@ import {Coords} from '../models/location';
   </div>
   </div>
   </div>
-  </div>`,
+  </div>
+  <sensor>`,
   providers: []
 })
 
 export class Analyze extends AbstractComponent implements OnInit {
   name:string = "No data";
   location: string = "No data";
+  @ViewChild(Sensor)
+  private sensor: Sensor;
+
 
   ngOnInit(){
     (localStorage.getItem('userInfo'))?this.name = localStorage.getItem('userInfo'):this.name;

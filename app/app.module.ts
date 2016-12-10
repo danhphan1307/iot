@@ -7,6 +7,7 @@ import { UserComponent }  from './component/user.panel.component';
 import { SearchBar} from './component/search.bar.component';
 import { LoginComponent} from './component/login.component';
 import { Analyze} from './component/analystics.component';
+import { Sensor} from './component/sensor.panel.component';
 import { AppComponent }  from './app.component';
 import { BikeComponent }  from './bikes/bike.component';
 import { Info} from './component/info.panel';
@@ -31,7 +32,7 @@ import { routing, appRoutingProviders }  from './app.routing';
     MapComponent,
     BikeComponent,
     UserComponent,
-    BlackOverlay,routing, SearchBar,TopNavigation, LoginComponent, Info, Analyze],
+    BlackOverlay,routing, SearchBar,TopNavigation, LoginComponent, Info, Analyze, Sensor],
     providers:[ MapService,BikeService],
     bootstrap: [AppComponent]
 })

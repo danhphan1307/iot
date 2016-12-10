@@ -186,7 +186,9 @@ export class MapComponent{
     }
 
     directionDestination(){
-        this.showDirection(this._desMarker);
+        if(localStorage.getItem('destination')!==null){
+            this.showDirection(this._desMarker);
+        }
     }
 
     clickMainMarker(){
@@ -265,6 +267,7 @@ export class MapComponent{
             'latLng': _marker.getPosition()
         }, (result:any, status:any) =>{
             if (status == google.maps.GeocoderStatus.OK) {
+                localStorage.setItem('userLastLocation',result[0].formatted_address);
                 return sResult =  result[0].formatted_address;
             } else {
                 console.log('Geocoder failed due to: ' + status);

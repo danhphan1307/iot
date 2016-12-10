@@ -51,7 +51,7 @@ a{
 }
 
 @media screen and (min-height: 500px){
-   .topNav{
+ .topNav{
     height: 7%;
 }
 }
@@ -557,19 +557,19 @@ th{
     border-color: #4d90fe;
 }
 #search_input::-webkit-input-placeholder {
- color: #fff!important;
+   color: #fff!important;
 }
 
 #search_input:-moz-placeholder { /* Firefox 18- */
- color: #fff!important;  
+   color: #fff!important;  
 }
 
 #search_input::-moz-placeholder {  /* Firefox 19+ */
- color: #fff!important;  
+   color: #fff!important;  
 }
 
 #search_input:-ms-input-placeholder {  
- color: #fff!important;  
+   color: #fff!important;  
 }
 #close_search{
     z-index: 3;
@@ -592,18 +592,18 @@ th{
     animation: all 0.5s;
 }
 #arrowUp{
- background-color: white;
- top:9vh;
- z-index:1;
- position: absolute;
- width: auto;
- max-width: 10vw;
- text-align: center;
- left: 0; 
- right: 0; 
- margin-left: auto; 
- margin-right: auto;  
- animation: all 0.5s;
+   background-color: white;
+   top:9vh;
+   z-index:1;
+   position: absolute;
+   width: auto;
+   max-width: 10vw;
+   text-align: center;
+   left: 0; 
+   right: 0; 
+   margin-left: auto; 
+   margin-right: auto;  
+   animation: all 0.5s;
 }
 .modal-dialog {
     margin-left: 10vw;
@@ -637,9 +637,24 @@ th{
     left: 0%!important;
     transform: translate(0, 0)!important;
 }
-
+textarea:focus, input:focus{
+    outline: none;
+}
+#crop{
+    height: 100px;
+    overflow-y: hidden;
+}
 #waiting-respond{
-    width: 100%;
+    width: 250px;
+    height: 180px;
+    display: block;
+    margin: auto;
+    margin-top: -50px;
+}
+#input1,#input2{
+    width: 90%;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #dedede;
 }
 .developer{
     width: 100%;
@@ -652,6 +667,16 @@ th{
     display: block;
     margin:auto;
     max-height: 7vh;
+}
+#btn-success{
+    width: 80px;
+    background-color: #40bdb8;
+    border-color: #40bdb8;
+}
+#btn-danger{
+    width: 80px;
+    background-color: #bd4045;
+    border-color: #bd4045;  
 }
 login-panel{
     height: 100%;
@@ -803,6 +828,7 @@ button.active{
     display: block;
     margin-left: auto;
     margin-right: auto;
+    width: 92%;
 }
 .userInfo .panel img{
     margin-bottom:15px;
