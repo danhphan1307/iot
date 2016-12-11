@@ -136,8 +136,6 @@ export class MapService{
             type=this.getZoomLevel(_map);
             if(_type=="bike"){
                 temp_marker.setIcon(this.iconsBike[type].icon);
-            }else if(_type=="fefault"){
-                //temp_marker.setIcon(null);
             }
         });
         return temp_marker;

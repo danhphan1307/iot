@@ -241,7 +241,36 @@ $(document).ready(function() {
 	loginURL = "https://iot-project-metropolia.eu-gb.mybluemix.net/api/group_1/login";
 	registerURL = "https://iot-project-metropolia.eu-gb.mybluemix.net/api/group_1/register";
 	token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiR1JPVVBfMSIsImFkbWluIjp0cnVlfQ.eKvUFe2OdsnZUfee8Xoi_vHixDOzs2rchkIFaegHE4E";
-	dataURL = "https://iot-project-metropolia.eu-gb.mybluemix.net/api/group_1/magnetic";
+	dataURL = "https://iot-project-metropolia.eu-gb.mybluemix.net/api/group_1/gps/device/";
+
+
+	//get location
+	setInterval(function(){
+		if(localStorage.getItem("sensor") !== null){
+			$.ajax({
+				crossDomain: true,
+				type: 'GET',
+				headers: {
+					'Accept':'application/json'
+				},
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				url: dataURL + localStorage.getItem("sensor"),
+				beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization',token); }
+			})
+
+			.done(function(response) {
+				if(response.data.length!=0){
+					localStorage.setItem('location',JSON.stringify(response.data));
+				}
+				
+			})
+			.fail(function(data) {
+
+			});
+		}
+	},2000);
+	//end of getting location
+
 	function resetFormMessages(){
 		formMessages.removeClass();
 		formMessages.addClass('alert');
@@ -251,29 +280,6 @@ $(document).ready(function() {
 	function editLocalStorage(data){
 		localStorage.setItem('userInfo',data);
 	}
-
-	$("#analyze").click(function(event){
-		$.ajax({
-			crossDomain: true,
-			type: 'GET',
-			headers: {
-				'Accept':'application/json'
-			},
-			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			url: dataURL,
-			data:{mac:'1411fa'},
-			beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization',token); }
-		})
-
-		.done(function(response) {
-			console.log(response);
-		})
-		.fail(function(data) {
-			
-		});
-		
-	});
-
 
 	$("#registerBtn").click(function(event){
 		event.preventDefault();

@@ -1,7 +1,7 @@
 import { Component, ViewChild, Output, EventEmitter, } from '@angular/core';
 import { Http, Response, Headers,URLSearchParams, RequestOptions } from '@angular/http';
 import { ModalDirective } from 'ng2-bootstrap/components/modal/modal.component';
-import {Observable} from 'rxjs/Rx';
+import { Observable} from 'rxjs/Rx';
 
 @Component({
 	selector: 'sensor',
@@ -100,6 +100,9 @@ export class Sensor{
 	 * [hideLgModal hide the modal]
 	 */
 	 hideLgModal() {
+	 	localStorage.removeItem('location');
+	 	localStorage.removeItem('estimateDistance');
+	 	localStorage.removeItem('estimateTime');
 	 	localStorage.removeItem('sensor');
 	 	this.lgModal.hide();
 	 }

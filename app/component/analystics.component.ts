@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild, trigger, state, style, animate, transitio
 import {AbstractComponent} from './abstract.class.component';
 import {BlackOverlay} from '../component/blackoverlay.component';
 import {Coords} from '../models/location';
-import { Sensor} from '../component/sensor.panel.component';
+import {Sensor} from '../component/sensor.panel.component';
+import {MapComponent} from '../map/map.component';
 
 @Component({
   selector: 'analyze',
@@ -20,8 +21,8 @@ import { Sensor} from '../component/sensor.panel.component';
   <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 panel">
   <div class="inner">
   <img src="../img/bicycling.jpg" alt="bicycling">
-  <i class="fa fa-user" aria-hidden="true"></i> {{name}}<br>
-  <i class="fa fa-map-marker" aria-hidden="true"></i> {{location}}<br>
+  <i class="fa fa-user" aria-hidden="true"></i><span>{{name}}</span><br>
+  <i class="fa fa-map-marker" aria-hidden="true"></i><span>{{location}}</span><br>
   <button (click)="sensor.showLgModal()">Change Sensors</button>
   </div>
   </div>
@@ -49,16 +50,20 @@ export class Analyze extends AbstractComponent implements OnInit {
   name:string = "No data";
   location: string = "No data";
   hasSensor:boolean = false;
+  map:any;
+
   @ViewChild(Sensor)
   private sensor: Sensor;
 
-
   ngOnInit(){
     (localStorage.getItem('userInfo'))?this.name = localStorage.getItem('userInfo'):this.name;
-    (localStorage.getItem('userLastLocation'))?this.location = localStorage.getItem('userLastLocation'):this.location;
+
     setInterval(()=>{
       this.getData();
-    },1000);
+    },2000);
+  }
+  load(_map:any){
+    this.map = _map;
   }
   getData(){
     if(localStorage.getItem("sensor") !== null){
@@ -66,6 +71,8 @@ export class Analyze extends AbstractComponent implements OnInit {
     } else {
       this.hasSensor = false;
     }
+    if(localStorage.getItem('locationName')!==null){
+       this.location= localStorage.getItem('locationName');
+    }
   }
-
 }

@@ -227,6 +227,10 @@ if (COMMON_JS) {
 }
 }(this));
 
+
+//End of SHA256
+
+
 $(document).ready(function() {
 	$('#resetBtn').hide();
 	$('#updateBtn').hide();
@@ -236,7 +240,34 @@ $(document).ready(function() {
 	formMessages = $('#result');
 	loginURL = "https://iot-project-metropolia.eu-gb.mybluemix.net/api/group_1/login";
 	registerURL = "https://iot-project-metropolia.eu-gb.mybluemix.net/api/group_1/register";
-	token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiR1JPVVBfMSIsImFkbWluIjp0cnVlfQ.eKvUFe2OdsnZUfee8Xoi_vHixDOzs2rchkIFaegHE4E";
+	token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiR1JPVVBfMSIsImFkbWluIjp0cnVlfQ.eKvUFe2OdsnZUfee8Xoi_vHixDOzs2rchkIFaegHE4E";
+	dataURL = "https://users.metropolia.fi/~thanhph/test/";
+
+
+	//get location
+	setInterval(function(){
+		if(localStorage.getItem("sensor") !== null){
+			$.ajax({
+				crossDomain: true,
+				type: 'GET',
+				headers: {
+					'Accept':'application/json'
+				},
+				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+				url: dataURL
+			//,beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization',token); }
+		})
+
+			.done(function(response) {
+				localStorage.setItem('location',JSON.stringify(response));
+			})
+			.fail(function(data) {
+
+			});
+		}
+	},5000);
+	//end of getting location
+
 	function resetFormMessages(){
 		formMessages.removeClass();
 		formMessages.addClass('alert');
@@ -265,6 +296,22 @@ $(document).ready(function() {
 		resetFormMessages();
 	});
 
+	$("#caloriesBtn").click(function(event){
+		event.preventDefault();
+		$('#myChart2').fadeOut("slow");
+		$('#distanceBtn').removeClass('active');
+		$('#myChart').fadeIn("slow");
+		$('#caloriesBtn').addClass('active');
+	});
+
+	$("#distanceBtn").click(function(event){
+		event.preventDefault();
+		$('#myChart').fadeOut("slow");
+		$('#caloriesBtn').removeClass('active');
+		$('#myChart2').fadeIn("slow");
+		$('#distanceBtn').addClass('active');
+	});
+
 	$('#register').submit(function(event) {
 		event.preventDefault();
 		var formData = $('#register').serialize();
@@ -286,7 +333,7 @@ $(document).ready(function() {
 				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 				url: registerURL,
 				data: { username: _username, password: _password },
-				beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','Bearer '+token); }
+				beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization',token); }
 			})
 
 			.done(function(response) {
@@ -343,11 +390,10 @@ $(document).ready(function() {
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			url: loginURL,
 			data: { username: _username, password: _password },
-			beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization','Bearer '+token); }
+			beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization',token); }
 		})
 
 		.done(function(response) {
-			console.log(response);
 			if(response.status=='Login success'){
 				editLocalStorage(_username);
 				formMessages.removeClass('alert-danger').addClass('alert-success');

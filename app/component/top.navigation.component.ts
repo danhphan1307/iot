@@ -39,7 +39,13 @@ import {BlackOverlay} from '../component/blackoverlay.component';
 export class TopNavigation  extends AbstractComponent{
   logout(){
     localStorage.removeItem('userInfo');
+    localStorage.removeItem('destination');
+    localStorage.removeItem('location');
     localStorage.removeItem('sensor');
+    localStorage.removeItem('estimateDistance');
+    localStorage.getItem('locationName');
+    localStorage.removeItem('estimateTime');
+    localStorage.removeItem("timeStart") ;
     window.location.reload();
   }
 }

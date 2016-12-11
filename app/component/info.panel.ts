@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, trigger, state, style, animate, transition, Input} from '@angular/core';
+import {MapComponent} from '../map/map.component';
 
 @Component({
   selector: 'info',
@@ -26,16 +27,16 @@ import { Component, OnInit, ViewChild, trigger, state, style, animate, transitio
   <hr>
   <table>
   <tr [hidden] ="hasSensor">
-    <td colspan="2">
-      <div class="alert alert-danger">Please add sensors at Info</div>
-    </td>
+  <td colspan="2">
+  <div class="alert alert-danger">Please add sensors at Info</div>
+  </td>
   </tr>
   <tr [hidden] ="!hasSensor">
   <td>
   Current Speed
   </td>
   <td>
-  {{speed}} km/h
+  {{velocity|number:'1.0-0'}} km/h
   </td>
   </tr>
   <tr [hidden] ="!hasSensor">
@@ -59,7 +60,7 @@ import { Component, OnInit, ViewChild, trigger, state, style, animate, transitio
   Time Left
   </td>
   <td>
-  {{distance/speed}} min
+  {{printDiff(distance/velocity)}}
   </td>
   </tr>
   <tr [hidden] ="!hasSensor">
@@ -68,6 +69,14 @@ import { Component, OnInit, ViewChild, trigger, state, style, animate, transitio
   </td>
   <td>
   {{calories}} cal
+  </td>
+  </tr>
+  <tr [hidden] ="!hasSensor">
+  <td>
+  Last Update
+  </td>
+  <td class="newline">
+  {{lastUpdate}}
   </td>
   </tr>
   </table>
@@ -82,23 +91,33 @@ export class Info implements OnInit{
   estimateTime:string = '00:00:00';
   pastDistance:number = 0;
   distance:number = 0;
-  speed:number = 1 ;
+  velocity:number = 0.01;
   avarage:number = 0 ;
   calories:number = 0;
   timePass:any = 1;
   hasSensor:boolean=false;
+  map:any;
+  lastUpdate:string = 'No data';
+
 
   toggle(){
     this.open? this.open = false:this.open = true;
+  }
+  load(_map:any){
+    this.map = _map;
   }
   ngOnInit(){
     try{
       if(localStorage.getItem("timeStart") !== null){
         this.timePass = this.diffTwoDay(new Date(), new Date (localStorage.getItem('timeStart')));
       }
+      setTimeout(()=>{
+        this.updateData();
+        this.updateTime();
+      },500);
       setInterval(()=>{
         this.updateData();
-      },5000);
+      },2000);
       setInterval(()=>{
         this.updateTime();
       },1000);
@@ -110,22 +129,36 @@ export class Info implements OnInit{
 
   updateData(){
     try {
+      if(localStorage.getItem("location")!==null){
+        var JSONObject= JSON.parse(localStorage.getItem("location"));
+        var lastObject = JSONObject[Object.keys(JSONObject).length-1];
+        this.map.placeCenterMarker(lastObject.lat,lastObject.lon);
+        this.velocity = lastObject.velocity;
+        this.lastUpdate = this.printDate(new Date(lastObject.timestamp));
+      } else {
+        this.velocity=0.01;
+        this.map.clearCenterMarker();
+        this.lastUpdate = 'No data';
+      }
       if(localStorage.getItem("userInfo") !== null){
         this.name = localStorage.getItem("userInfo");
       }
       if(localStorage.getItem("estimateDistance") !== null){
         this.estimateDistance = Number(localStorage.getItem("estimateDistance"))/1000;
+      }else {
+         this.estimateDistance=0;
       }
       if(localStorage.getItem("estimateTime") !== null){
         this.estimateTime = this.printDiff(Number(localStorage.getItem("estimateTime"))*1000);
+      }else {
+         this.estimateTime='00:00:00';
       }
       if(localStorage.getItem("sensor") !== null){
         this.hasSensor = true;
       }else {
         this.hasSensor = false;
       }
-      
-      this.calculateCalories(this.speed);
+      this.calculateCalories(this.velocity);
     }
     catch (e) {
       console.log(e);
@@ -133,7 +166,7 @@ export class Info implements OnInit{
   }
 
   updateTime(){
-    if(this.speed > 15){
+    if(this.velocity > 15){
       if(localStorage.getItem("timeStart") == null){
         localStorage.setItem("timeStart",String(new Date()));
       }else {
@@ -152,6 +185,10 @@ export class Info implements OnInit{
     var diffMinute = Math.round(((timeDiff % 86400000) % 3600000) / 60000);
     var diffSecond = Math.round((((timeDiff % 86400000) % 3600000) % 60000) /1000);
     return ("0"+(String)(diffHour)).slice(-2)+ ":" +  ("0"+(String)(diffMinute)).slice(-2) + ":" +  ("0"+(String)(diffSecond)).slice(-2);
+  }
+  printDate(_date:any):string{
+    var _date_print = ("0"+(String)(_date.getHours())).slice(-2)+ ":" + ("0"+(String)(_date.getMinutes())).slice(-2)+ ":"+ ("0"+(String)(_date.getSeconds())).slice(-2)+ "\r\n"+_date.toDateString();
+    return _date_print;
   }
 
   calculateCalories(_veloc:number){

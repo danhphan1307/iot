@@ -65,8 +65,13 @@ export class AppComponent implements OnInit {
 
   @ViewChild(SearchBar)
   private SearchBar: SearchBar;
+
   @ViewChild(LoginComponent)
   private loginComponent: LoginComponent;
+
+  @ViewChild(Info)
+  private info: Info;
+
 
 
   stations : BikeStation[];
@@ -81,6 +86,12 @@ export class AppComponent implements OnInit {
   ngOnInit(){
     this.blackOverlay.setState('full');
     this.filter.load(this.MapComponent);
+    this.info.load(this.MapComponent);
+    this.analyze.load(this.MapComponent);
+
+    /*
+    * ChartJS Object
+    */
     var ctx = document.getElementById("myChart");
     var myChart = new Chart(ctx, {
       type: 'line',
@@ -156,6 +167,10 @@ export class AppComponent implements OnInit {
         }
       }
     });
+
+    /*
+    * End of ChartJS Object
+    */
     if(!userExist()){
       let timer = Observable.timer(2000,1000);
       timer.subscribe(()=> {
@@ -164,6 +179,7 @@ export class AppComponent implements OnInit {
     }else {
       this.bRegister = true;
     }
+
   }
 
   constructor(private _router: Router, viewContainerRef:ViewContainerRef ) {
@@ -210,7 +226,7 @@ export class AppComponent implements OnInit {
         this.reset();
         if(this.router.url == "/bike"){
           this.MapComponent.directionDestination();
-          this.MapComponent.center(this.MapComponent.centerLat, this.MapComponent.centerLon, ():void =>{
+          this.MapComponent.center(():void =>{
             this.setButtonOnOff(this.options,'auto');
           });
         }

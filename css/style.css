@@ -12,6 +12,7 @@ body {
     width: 100%;
     margin: 0px;
     z-index: 0;
+    overflow: hidden;
 }
 
 a{
@@ -521,7 +522,7 @@ th{
     margin-bottom: 30px;
 }
 .bottomDiv{
-    overflow-y: scroll;
+    /*overflow-y: scroll;*/
     z-index: 1;
     position: absolute;
     height: 0;
@@ -536,6 +537,14 @@ th{
     top:5px;
     position: relative;
     font-weight: bold;
+}
+.bottomDiv i,span{
+    display:inline-block;
+    vertical-align: top;
+}
+.bottomDiv span{
+    padding-left:5px;
+    width:85%;
 }
 
 #search_input_wrap{
@@ -627,6 +636,9 @@ th{
    margin-right: auto;  
    animation: all 0.5s;
 }
+.newline{
+    white-space: pre-wrap;
+}
 .modal-dialog {
     margin-left: 10vw;
     width: 80vw!important;
@@ -706,7 +718,6 @@ login-panel{
     z-index: 3;
     display:flex;justify-content:center;align-items:center;
 }
-
 login-panel form{
     background:white;
 }
@@ -736,7 +747,9 @@ login-panel form{
     outline: none;
     color:white;
 }
-
+analyze .appNav button{
+   padding:5px 0; 
+}
 .appNav img{
     margin-left:1vw;
     padding:1vh 1vw;
@@ -762,7 +775,6 @@ button.active{
     color: #fff;
     background-color: #41c0bb;
     border-color: #41c0bb;
-
 }
 .alert{
     margin-bottom: 0;
@@ -876,16 +888,4 @@ analyze label{
 #myChart, #myChart2{
     background:white;
     position: absolute;
-    top: 40px;
-}
-
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-@media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
-}
-@media screen and (min-width: 600px){
-    #input-group{
-        max-width:90vw;
-    }
 }
