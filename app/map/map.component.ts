@@ -98,8 +98,10 @@ export class MapComponent{
         this.map.controls[google.maps.ControlPosition.RIGHT_TOP].push(info_panel);
         var filter_panel = /** @type {!HTMLInputElement} */(document.getElementById('filter'));
         this.map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(filter_panel);
+        //Signal that map has done loading
+
     }
-    placeCenterMarker(_lat:number, _lng:number){
+    placeCenterMarker(_lat:number, _lng:number, _heading:number){
         if(this.centerLat!=_lat || this.centerLon !=_lng){
             this.clearCenterMarker();
             this.centerLat = _lat;
@@ -124,7 +126,7 @@ export class MapComponent{
                 * End of getting from localStorage
                 */
             }
-            this.centerMarker = this.service.placeMarker(this.map, _lat, _lng,"default");
+            this.centerMarker = this.service.placeMarker(this.map, _lat, _lng,"default", _heading);
         }
     }
 
@@ -186,9 +188,10 @@ export class MapComponent{
         /*
         *End of Search bar
         */
+        setTimeout(()=>{
+            this.doneLoading.emit(true);
+        },500);
 
-        //Signal that map has done loading
-        this.doneLoading.emit(true);
     }
 
     directionDestination(){

@@ -6,8 +6,8 @@ import { Analyze} from './component/analystics.component';
 
 const appRoutes: Routes = [
 {     path: '',
-redirectTo: '/bike',
-pathMatch: 'full'},
+	redirectTo: '/bike',
+	pathMatch: 'full'},
 { path: 'bike', component: BikeComponent },
 { path: 'analyze', component: Analyze }
 ];

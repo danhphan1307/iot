@@ -260,6 +260,13 @@ $(document).ready(function() {
 
 			.done(function(response) {
 				if(response.data.length!=0){
+					response.data.sort(function(a,b){
+						var keyA = new Date(a.timestamp),
+						keyB = new Date(b.timestamp);
+						if(keyA < keyB) return -1;
+						if(keyA > keyB) return 1;
+						return 0;
+					});
 					localStorage.setItem('location',JSON.stringify(response.data));
 				}
 				
@@ -301,17 +308,17 @@ $(document).ready(function() {
 
 	$("#caloriesBtn").click(function(event){
 		event.preventDefault();
-		$('#myChart2').fadeOut("slow");
+		$('#myChart').fadeOut("slow");
 		$('#distanceBtn').removeClass('active');
-		$('#myChart').fadeIn("slow");
+		$('#myChart2').fadeIn("slow");
 		$('#caloriesBtn').addClass('active');
 	});
 
 	$("#distanceBtn").click(function(event){
 		event.preventDefault();
-		$('#myChart').fadeOut("slow");
+		$('#myChart2').fadeOut("slow");
 		$('#caloriesBtn').removeClass('active');
-		$('#myChart2').fadeIn("slow");
+		$('#myChart').fadeIn("slow");
 		$('#distanceBtn').addClass('active');
 	});
 

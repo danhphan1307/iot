@@ -241,7 +241,7 @@ $(document).ready(function() {
 	loginURL = "https://iot-project-metropolia.eu-gb.mybluemix.net/api/group_1/login";
 	registerURL = "https://iot-project-metropolia.eu-gb.mybluemix.net/api/group_1/register";
 	token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiR1JPVVBfMSIsImFkbWluIjp0cnVlfQ.eKvUFe2OdsnZUfee8Xoi_vHixDOzs2rchkIFaegHE4E";
-	dataURL = "https://users.metropolia.fi/~thanhph/test/";
+	dataURL = "https://iot-project-metropolia.eu-gb.mybluemix.net/api/group_1/gps/device/";
 
 
 	//get location
@@ -254,18 +254,21 @@ $(document).ready(function() {
 					'Accept':'application/json'
 				},
 				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-				url: dataURL
-			//,beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization',token); }
-		})
+				url: dataURL + localStorage.getItem("sensor"),
+				beforeSend: function(xhr, settings) { xhr.setRequestHeader('Authorization',token); }
+			})
 
 			.done(function(response) {
-				localStorage.setItem('location',JSON.stringify(response));
+				if(response.data.length!=0){
+					localStorage.setItem('location',JSON.stringify(response.data));
+				}
+				
 			})
 			.fail(function(data) {
 
 			});
 		}
-	},5000);
+	},2000);
 	//end of getting location
 
 	function resetFormMessages(){

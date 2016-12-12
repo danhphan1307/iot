@@ -3,32 +3,42 @@
 <head>
 	<base href="/">
 	<title>Smart Bicycle</title>
-	<meta name="description" content="A Web Application for finding parking spots in Helsinki region">
+	<meta name="description" content="A Web Application for Smart Bike">
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 	<!-- Add to homescreen for Chrome on Android -->
 	<meta name="mobile-web-app-capable" content="yes">
-	<link rel="icon" sizes="192x192" href="../img/android-chrome-192x192.png">
-
 	<!-- Add to homescreen for Safari on iOS -->
-	<meta name="apple-mobile-web-app-title" content="Push Messaging and Notifications Sample">
-
+	<meta name="apple-mobile-web-app-title" content="Smart Bike">
 	<meta name="apple-mobile-web-app-capable" content="yes">
-	<meta name="apple-mobile-web-app-status-bar-style" content="black">
-	<link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-precomposed.png">
+	<meta name="apple-mobile-web-app-status-bar-style" content="green">
+
+	<link rel="manifest" href="manifest.json">
+	<meta name="theme-color" content="#2F3BA2">
+	<!-- Add to home screen for Safari on iOS -->
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="default">
+	<meta name="apple-mobile-web-app-title" content="Smart Bike">
+	<link rel="apple-touch-icon" sizes="60x60" href="img/icons/apple-touch-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="img/icons/apple-touch-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="img/icons/apple-touch-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="img/icons/apple-touch-icon-152x152.png">
 
 	<!-- Tile icon for Win8 (144x144 + tile color) -->
-	<meta name="msapplication-TileImage" content="img/ms-touch-icon-144x144-precomposed.png">
+	<meta name="msapplication-TileImage" content="img/icons/mstile-144x144.png">
 	<meta name="msapplication-TileColor" content="#2A6785">
 
-	<link rel="icon" href="../img/favicon.ico">
-	<link rel="manifest" href="manifest.json">
+	<link rel="icon" type="image/png" href="img/icons/mstile-310x310.png">
 	<script src="js/jquery-2.2.3.min.js"></script>
 	<script src="js/application.js"></script>
 	<script src="bootstrap-slider/bootstrap-slider.min.js"></script>
-	<script src="js/chart.min.js"></script>
-	<script async defer src="https://maps.googleapis.com/maps/api/js?v=3.27&key=AIzaSyC9xg4iGS-l2PLDIdLp1u3T9vCIMXIdVoE&language=en&libraries=geometry,places&mode=bicycling"></script>
+	<script src="amcharts/amcharts.js"></script>
+	<script src="amcharts/serial.js"></script>
+	<script src="amcharts/plugins/export/export.min.js"></script>
+	<script src="amcharts/themes/light.js"></script>
+	<link rel="stylesheet" href="amcharts/plugins/export/export.css" type="text/css" media="all" />
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.27&key=AIzaSyC9xg4iGS-l2PLDIdLp1u3T9vCIMXIdVoE&language=en&libraries=geometry,places&mode=bicycling"></script>
 </head>
 <body>
 	<script type="text/javascript">

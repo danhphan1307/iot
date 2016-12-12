@@ -28,7 +28,7 @@ import {MapComponent} from '../map/map.component';
   <table>
   <tr [hidden] ="hasSensor">
   <td colspan="2">
-  <div class="alert alert-danger">Please add sensors at Info</div>
+  <div class="alert alert-danger">Please pair your device at Info</div>
   </td>
   </tr>
   <tr [hidden] ="!hasSensor">
@@ -72,11 +72,10 @@ import {MapComponent} from '../map/map.component';
   </td>
   </tr>
   <tr [hidden] ="!hasSensor">
-  <td>
+  <td style="vertical-align: top;">
   Last Update
   </td>
-  <td class="newline">
-  {{lastUpdate}}
+  <td class="newline">{{lastUpdate}}
   </td>
   </tr>
   </table>
@@ -132,7 +131,7 @@ export class Info implements OnInit{
       if(localStorage.getItem("location")!==null){
         var JSONObject= JSON.parse(localStorage.getItem("location"));
         var lastObject = JSONObject[Object.keys(JSONObject).length-1];
-        this.map.placeCenterMarker(lastObject.lat,lastObject.lon);
+        this.map.placeCenterMarker(lastObject.lat,lastObject.lon, lastObject.roll);
         this.velocity = lastObject.velocity;
         this.lastUpdate = this.printDate(new Date(lastObject.timestamp));
       } else {
@@ -166,7 +165,7 @@ export class Info implements OnInit{
   }
 
   updateTime(){
-    if(this.velocity > 15){
+    if(this.velocity >= 10 && localStorage.getItem("destination")!==null && localStorage.getItem("location")!==null){
       if(localStorage.getItem("timeStart") == null){
         localStorage.setItem("timeStart",String(new Date()));
       }else {

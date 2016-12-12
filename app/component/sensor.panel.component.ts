@@ -101,6 +101,7 @@ export class Sensor{
 	 */
 	 hideLgModal() {
 	 	localStorage.removeItem('location');
+	 	localStorage.removeItem('locationName');
 	 	localStorage.removeItem('estimateDistance');
 	 	localStorage.removeItem('estimateTime');
 	 	localStorage.removeItem('sensor');
