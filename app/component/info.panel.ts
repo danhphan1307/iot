@@ -28,10 +28,15 @@ import {MapComponent} from '../map/map.component';
   <table>
   <tr [hidden] ="hasSensor">
   <td colspan="2">
-  <div class="alert alert-danger">Please pair your device at Info</div>
+  <div class="alert alert-danger"><a style="color:#a94442" routerLink="/analyze" (click)="openInfo()">Please pair your device at Info</a></div>
   </td>
   </tr>
-  <tr [hidden] ="!hasSensor">
+  <tr [hidden] ="!hasSensor||hasLocation">
+  <td colspan="2">
+  <div class="alert alert-danger">No data</div>
+  </td>
+  </tr>
+  <tr [hidden] ="!hasSensor||!hasLocation">
   <td>
   Current Speed
   </td>
@@ -39,15 +44,7 @@ import {MapComponent} from '../map/map.component';
   {{velocity|number:'1.0-0'}} km/h
   </td>
   </tr>
-  <tr [hidden] ="!hasSensor">
-  <td>
-  Distance Left
-  </td>
-  <td>
-  {{estimateDistance - pastDistance}} km
-  </td>
-  </tr>
-  <tr [hidden] ="!hasSensor">
+  <tr [hidden] ="!hasSensor||!hasLocation">
   <td>
   Time Pass
   </td>
@@ -55,15 +52,15 @@ import {MapComponent} from '../map/map.component';
   {{printDiff(timePass)}}
   </td>
   </tr>
-  <tr [hidden] ="!hasSensor">
+  <tr [hidden] ="!hasSensor||!hasLocation">
   <td>
   Time Left
   </td>
   <td>
-  {{printDiff(distance/velocity)}}
+  {{printDiff((estimateDistance/velocity)*3600000)}}
   </td>
   </tr>
-  <tr [hidden] ="!hasSensor">
+  <tr [hidden] ="!hasSensor||!hasLocation">
   <td>
   Burned Calories
   </td>
@@ -71,12 +68,11 @@ import {MapComponent} from '../map/map.component';
   {{calories}} cal
   </td>
   </tr>
-  <tr [hidden] ="!hasSensor">
+  <tr [hidden] ="!hasSensor||!hasLocation">
   <td style="vertical-align: top;">
   Last Update
   </td>
-  <td class="newline">{{lastUpdate}}
-  </td>
+  <td class="newline">{{lastUpdate}}</td>
   </tr>
   </table>
   </div>`,
@@ -95,6 +91,7 @@ export class Info implements OnInit{
   calories:number = 0;
   timePass:any = 1;
   hasSensor:boolean=false;
+  hasLocation:boolean = false;
   map:any;
   lastUpdate:string = 'No data';
 
@@ -134,7 +131,6 @@ export class Info implements OnInit{
         this.map.placeCenterMarker(lastObject.lat,lastObject.lon, lastObject.yaw);
         this.velocity = lastObject.velocity;
         this.lastUpdate = this.printDate(new Date(lastObject.timestamp));
-        this.map.getNameFromGeocoder();
       } else {
         this.velocity=0.01;
         this.map.clearCenterMarker();
@@ -159,6 +155,11 @@ export class Info implements OnInit{
       }else {
         this.hasSensor = false;
       }
+      if(localStorage.getItem('location')!==null){
+        this.hasLocation = true;
+      }else{
+        this.hasLocation = false;
+      }
       this.calculateCalories(this.velocity);
     }
     catch (e) {
@@ -167,11 +168,11 @@ export class Info implements OnInit{
   }
 
   updateTime(){
-    if(this.velocity >= 10 && localStorage.getItem("destination")!==null && localStorage.getItem("location")!==null){
+    if(this.velocity >= 5 && localStorage.getItem("location")!==null){
       if(localStorage.getItem("timeStart") == null){
         localStorage.setItem("timeStart",String(new Date()));
       }else {
-        this.timePass = this.diffTwoDay(new Date(), new Date (localStorage.getItem('timeStart')));
+        this.timePass=this.diffTwoDay(new Date(), new Date (localStorage.getItem('timeStart')));
       }
     }
   }
@@ -207,5 +208,12 @@ export class Info implements OnInit{
       this.calories = 16 * this.timePass/60000;
     }
     this.calories = Math.round(this.calories);
+  }
+
+  openInfo(){
+    setTimeout(()=>{
+      document.getElementById("analyze").click();
+    },100);
+    
   }
 }

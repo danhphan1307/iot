@@ -62,7 +62,7 @@ a{
         top: 12vh;
     }
     body{
-        overflow: hidden;
+        overflow: hidden!important;
     }
     #myChart,#myChart2{
         height  : 70vh;
@@ -93,6 +93,9 @@ a{
     .userInfo .container .col-sm-3, .userInfo .container .col-sm-9{
         width: 100%;
     }
+    #bicylingPanel h2{
+        font-size: 2em!important;
+    }
 }
 
 @media screen and (min-width: 400px){
@@ -122,6 +125,9 @@ a{
     }
     .bottomDiv{
         top: 8vh;
+    }
+    #myChart,#myChart2{
+        height  : 80vh;
     }
 }
 
@@ -554,7 +560,7 @@ th{
     font-weight: bold;
 }
 .bottomDiv i,span:not(.map-icon):not(.input-group-addon){
-    display:inline-block;
+    display:inline;
     vertical-align: top;
 }
 .bottomDiv span{
@@ -732,6 +738,7 @@ login-panel{
     position: absolute;
     z-index: 3;
     display:flex;justify-content:center;align-items:center;
+    width: 100%;
 }
 login-panel form{
     background:white;
@@ -1023,7 +1030,7 @@ analyze label{
     height: 85%;
 }
 #carouselInstruction slide{
-    margin-top: 5vh;
+    margin-top: 7vh;
 }
 #carouselInstruction button{
     outline:none;
@@ -1035,4 +1042,44 @@ analyze label{
     margin-right:2%;
     border:1px solid #779ECB;
     color:#779ECB;  
+}
+@media screen and (max-width: 600px){
+    .userInfo .inner button {
+        padding: 0;
+    }
+}
+#bicylingPanel{
+    position: relative;
+    width: 100%;
+    background-color: #41C0BB;
+    color:white;
+    height:20vh;
+    margin-bottom:9vh;
+}
+
+#bicylingPanel img{
+    position: absolute;
+    width: 35%;
+    margin-bottom: 0;
+    display:block; top: 100%;left: 50%; transform: translate(-50%, -50%);
+}
+#bicylingPanel h2 {
+    position: absolute;
+    font-size: 1.2em;
+    top:40%;
+    left: 50%; transform: translate(-50%, -50%);
+    margin-bottom: 0;
+    margin-top:0;
+}
+
+#user_icon{
+    max-width: 40px;
+    position: absolute;
+    z-index: 2;
+    display:none;
+    top:15px;
+}
+
+.fullWidth{
+    width:100%!important;
 }

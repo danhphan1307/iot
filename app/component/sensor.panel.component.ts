@@ -56,43 +56,26 @@ export class Sensor{
 	 	document.getElementById("waiting-respond").style.height = '0';
 	 	this.lgModal.show();
 	 }
-	 login(): any{
+	 login(){
 	 	if((<HTMLInputElement>document.getElementById('input1')).value=='' || !(/\S/.test((<HTMLInputElement>document.getElementById('input1')).value))){
 	 		document.getElementById('error-log').innerText="Please check the input again";
+	 		document.getElementById("success-log").style.display = "none";
+	 		document.getElementById("error-log").style.display = "block";
+	 	}else if((<HTMLInputElement>document.getElementById('input1')).value==localStorage.getItem('sensor')){
+	 		document.getElementById('error-log').innerText="Device is added";
+	 		document.getElementById("success-log").style.display = "none";
 	 		document.getElementById("error-log").style.display = "block";
 	 	}else {
-	 		localStorage.setItem('sensor',(<HTMLInputElement>document.getElementById('input1')).value);
-	 		/*
-	 		document.getElementById("crop").style.height = '100px';
+	 		document.getElementById("success-log").style.display = "block";
+	 		document.getElementById('success-log').innerHTML= 'Pair succesful';
 	 		document.getElementById("error-log").style.display = "none";
-	 		document.getElementById("btn-success").style.display = "none";
-	 		document.getElementById("btn-danger").style.display = "none";
-	 		document.getElementById("waiting-respond").style.height = '180px';
-	 		let params: URLSearchParams = new URLSearchParams();
-	 		let data = {
-	 			"device_id": (<HTMLInputElement>document.getElementById('input1')).value,
-	 			"password":(<HTMLInputElement>document.getElementById('input2')).value
-	 		}
-	 		let body = JSON.stringify(data);
-	 		let head = new Headers({
-	 			'Accept':'application/json',
-	 			'Content-Type': 'application/json',
-	 			'Authorization': this.token
-	 		});
-	 		this.http.post(this.sensorURL, body, {headers : head})
-	 		.subscribe( (response) => {let body = response.json()
-	 			document.getElementById("crop").style.height = '10px';
-	 			document.getElementById("waiting-respond").style.height = '0';
-	 			document.getElementById("btn-danger").style.display = "inline-block";
-	 			if(body.status=="Login success"){
-	 				document.getElementById("success-log").style.display = "block";
-	 				document.getElementById('success-log').innerHTML= 'Change succesful';
-	 			}else {
-	 				document.getElementById("error-log").style.display = "block";
-	 				document.getElementById('error-log').innerText="Cannot connect to the sensor";
-	 			}
-	 		});
-	 		*/
+	 		localStorage.removeItem('location');
+	 		localStorage.removeItem('timeTemp');
+	 		localStorage.removeItem('timeStart');
+	 		localStorage.removeItem('locationName');
+	 		localStorage.removeItem('estimateDistance');
+	 		localStorage.removeItem('estimateTime');
+	 		localStorage.setItem('sensor',(<HTMLInputElement>document.getElementById('input1')).value);
 	 	}
 	 }
 
@@ -100,11 +83,6 @@ export class Sensor{
 	 * [hideLgModal hide the modal]
 	 */
 	 hideLgModal() {
-	 	localStorage.removeItem('location');
-	 	localStorage.removeItem('locationName');
-	 	localStorage.removeItem('estimateDistance');
-	 	localStorage.removeItem('estimateTime');
-	 	localStorage.removeItem('sensor');
 	 	this.lgModal.hide();
 	 }
 	}

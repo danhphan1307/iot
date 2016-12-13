@@ -4,7 +4,7 @@
 </div>
 <carousel [interval]="0" [noWrap]="noWrapSlides">
   <slide *ngFor="let slidez of slides; let index=index" [active]="slidez.active">
-    <img [src]="slidez.image" style="margin:auto;    max-height: 50vh;" class="img-responsive">
+    <img [src]="slidez.image" style="margin:auto;max-width:80vw;max-height: 45vh;" class="img-responsive">
     <div class="carousel-caption" style="top:95%;">
       <h4>{{slidez.title}}</h4>
       <p>{{slidez.text}}</p>

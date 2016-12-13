@@ -71,11 +71,13 @@ export class CarouselComponent {
 
 
   public closeInstruction(){
+    document.body.style.overflow="visible";
     this.state = false;
     localStorage.setItem('showInstruction',(!(<HTMLInputElement>document.getElementById('showInstructionCheckbox')).checked).toString());
   }
 
   public showInstruction(){
+    document.body.style.overflow="hidden";
     this.state = true;
   }
 
@@ -83,8 +85,8 @@ export class CarouselComponent {
     let newWidth = this.slides.length + 1;
     this.slides.push({
       image: `../img/${newWidth}.png`,
-      title:`${['Smart Bike', 'Analysis', 'Pair Device', 'Secure','City Bike',  'Let\'s Go Biking'][this.slides.length % this.pictureNumber]}`,
-      text: `${['You can instantly see distance and burned calories', 'Gathering your information and display through charts', 'Easy to pair new device with Mac Address', 'We DO NOT directly store your information to our database. Your password is hashed also', 'Using City Bikes. Why not?',''][this.slides.length % this.pictureNumber]}`
+      title:`${['Smart Bike', 'Analysis', 'Pair Device', 'Security and Privacy','City Bike',''][this.slides.length % this.pictureNumber]}`,
+      text: `${['Instantly see the distance and burned calories', 'Analyzing your information and display through charts', 'Easy to pair new device with its Mac Address', 'No sensitive information is colected while using our app', 'Use City Bikes provided by Helsinki City. Why not?',''][this.slides.length % this.pictureNumber]}`
     });
   }
 }

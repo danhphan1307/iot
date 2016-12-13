@@ -79,7 +79,7 @@ export class MapComponent{
     initialize():void {
         var mapProp = {
             center: new google.maps.LatLng(60.1703827, 24.9384473),
-            zoom: 12,
+            zoom: 14,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             disableDefaultUI: true,
             zoomControl: true,
@@ -107,6 +107,7 @@ export class MapComponent{
             this.clearCenterMarker();
             this.centerLat = _lat;
             this.centerLon = _lng;
+            this.centerHeading = _heading;
             if(this.centerLon!=-1 && this.centerLon!=-1){
                 this.map.panTo(new google.maps.LatLng(this.centerLat, this.centerLon));
                 /*
@@ -127,6 +128,7 @@ export class MapComponent{
                 * End of getting from localStorage
                 */
             }
+            this.getNameFromGeocoder();
             this.centerMarker = this.service.placeMarker(this.map, _lat, _lng,"default", _heading);
         }
     }

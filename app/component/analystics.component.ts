@@ -18,15 +18,16 @@ declare var AmCharts:any;
     ])
   ],
   template: `<div class="bottomDiv userInfo" [@animationBottomNav]="state">
+  <img src="img/user_icon.png" alt="user icon" id="user_icon"  (click)="show_left()"/>
   <div class="container">
   <div class="row">
   <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 panel" id="bicyclingDiv">
   <div class="inner" id="bicylingInner">
-  <img src="../img/bicycling.jpg" alt="bicycling" id="bicylingPanel">
-  <div  id="bicylingContent">
-  <i class="fa fa-user" aria-hidden="true"></i><span>{{name}}</span><br>
-  <i class="fa fa-map-marker" aria-hidden="true"></i><span>{{location}}</span><br>
+  <div id="bicylingPanel"><img src="img/user_icon.png" alt="user icon" (click)="hide_left()"/><h2>{{ name}}</h2></div>
+  <div id="bicylingContent">
+  <i class="fa fa-map-marker" aria-hidden="true"></i><span style="display:inline-block">{{location}}</span><br>
   <button (click)="sensor.showLgModal()">Pair Sensors</button>
+  <div [hidden]="!hasSensor"><button (click)="updateChart()">Update Charts</button></div>
   <button (click)="carouselComponent.showInstruction()">Instruction</button>
   </div>
   </div>
@@ -35,7 +36,10 @@ declare var AmCharts:any;
   <div [hidden]="hasSensor">
   <div class="alert alert-danger">Please pair your device for analysis</div>
   </div>
-  <div [hidden]="!hasSensor">
+  <div [hidden]="!hasSensor||hasLocation">
+  <div class="alert alert-danger">No data</div>
+  </div>
+  <div [hidden]="!hasSensor||!hasLocation">
   <div class="appNav">
   <button class="active" id = "distanceBtn" >DISTANCE</button><!--
   !--><button id = "caloriesBtn" >CALORIES</button>
@@ -55,6 +59,7 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
   name:string = "No data";
   location: string = "No data";
   hasSensor:boolean = false;
+  hasLocation:boolean = false;
   map:any;
   carouselComponent:any;
   chart:any;
@@ -65,19 +70,39 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
   ngOnInit(){
     (localStorage.getItem('userInfo'))?this.name = localStorage.getItem('userInfo'):this.name;
     document.getElementById('btn-success').onclick = ()=>{
-      setTimeout(()=>{
-        this.graph();
-      },1500);
+      if((<HTMLInputElement>document.getElementById('input1')).value!=localStorage.getItem('sensor')){
+        setTimeout(()=>{
+          this.graph(this.gatherDistance(), this.gatheCalories());
+        },2000);
+      }
+
     }
     setInterval(()=>{
       this.getData();
     },2000);
   }
-  ngAfterViewInit(){
-    this.graph();
+  updateChart(){
+    this.graph(this.gatherDistance(), this.gatheCalories());
+
   }
-
-
+  ngAfterViewInit(){
+    this.graph(this.gatherDistance(), this.gatheCalories());
+  }
+  diffTwoDay(_date1:any, _date2:any):number{
+    var timeDiff = (Math.abs(_date1.getTime() - _date2.getTime()))/1000;
+    return timeDiff;
+  }
+  hide_left(){
+    document.getElementById('bicyclingDiv').style.display='none';
+    document.getElementById('user_icon').style.display='block';
+    document.getElementById('bicyclingDiv2').className= 'col-xs-9 col-sm-9 col-md-9 col-lg-9 chartDiv fullWidth';
+    
+  }
+  show_left(){
+    document.getElementById('bicyclingDiv').style.display='block';
+    document.getElementById('user_icon').style.display='none';
+    document.getElementById('bicyclingDiv2').className= 'col-xs-9 col-sm-9 col-md-9 col-lg-9 chartDiv';
+  }
   gatherDistance():any{
     var myData:any = [{"distance":0,"timestamp":new Date()}];
     if(localStorage.getItem('location')!==null){
@@ -89,7 +114,7 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
         if(i>0){
           var _date1 = (new Date(source[i-1].timestamp));
           var _date2 = (new Date(source[i].timestamp));
-          var _date_diff = Math.abs(_date2.getTime()-_date1.getTime())/1000;
+          var _date_diff = this.diffTwoDay(_date2,_date1);
           if(_date2.getDate()==_date1.getDate()){
             if(_date_diff< (60*5)){//maximum allow diffrent between two times is 5 minutes
               var _temp_distance = this.distance(source[i-1].lat,source[i-1].lon,source[i].lat,source[i].lon);
@@ -97,7 +122,7 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
             }
             obj = { 
               "timestamp": _date1,
-              "distance": Math.round(distance)
+              "distance": distance.toFixed(2)
             };
           }else{
             myData.push(obj);
@@ -111,6 +136,59 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
       }
     }
     return myData
+  }
+
+  gatheCalories():any{
+    var myData:any = [{"calories":0,"timestamp":new Date()}];
+    if(localStorage.getItem('location')!==null){
+      var source = JSON.parse(localStorage.getItem('location'));
+      var calories =0;
+      var obj:any;
+      myData = [];
+      for(var i =0; i<Object.keys(source).length;i++){
+        if(i>0){
+          var _date1 = (new Date(source[i-1].timestamp));
+          var _date2 = (new Date(source[i].timestamp));
+          var _date_diff = this.diffTwoDay(_date2,_date1);
+          if(_date2.getDate()==_date1.getDate()){
+            if(_date_diff< (60*5)){//maximum allow diffrent between two times is 5 minutes
+              calories+=this.calories(source[i-1].velocity,_date_diff);
+            }
+            obj = { 
+              "timestamp": _date1,
+              "calories": Math.round(calories)
+            };
+          }else{
+            myData.push(obj);
+            calories=0;
+          }
+        } 
+      }
+      if(myData[myData.length-1].timestamp != obj.timestamp){
+        myData.push(obj);
+        calories=0;
+      }
+    }
+    return myData
+  }
+
+  calories(_veloc:number, _time:number){
+    var calories:any;
+    if(_veloc<4.4){
+      calories = 4 * _time/60;
+    } else if(_veloc<5.3){
+      calories = 6 * _time/60;
+    } else if(_veloc<6.25){
+      calories = 8 * _time/60;
+    }else if(_veloc<7.15){
+      calories = 10 * _time/60;
+    }else if(_veloc<8.9){
+      calories = 12 * _time/60;
+    }else if(_veloc>=8.9){
+      calories = 16 * _time/60;
+    }
+    calories = Math.round(calories);
+    return calories;
   }
 
   distance(lat1:number, lon1:number, lat2:number, lon2:number){
@@ -130,7 +208,7 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
     return Value * Math.PI / 180;
   }
 
-  graph(){
+  graph(_dataDistance:any, _dataCalories:any){
       /*
     * AmChart Object
     */
@@ -138,8 +216,8 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
       "type": "serial",
       "theme": "light",
       "marginTop":0,
-      "marginRight": 80,
-      "dataProvider": this.gatherDistance(),
+      "marginRight": 65,
+      "dataProvider": _dataDistance,
       "graphs": [{
         "id":"g1",
         "balloonText": "[[category]]<br><b><span style='font-size:12px;'>[[value]] km</span></b>",
@@ -148,7 +226,7 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
         "lineColor": "#d1655d",
         "lineThickness": 2,
         "negativeLineColor": "#637bb6",
-        "negativeBase": 60.2,
+        "negativeBase": 10,
         "type": "smoothedLine",
         "valueField": "distance"
       }],
@@ -156,7 +234,7 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
         "graph":"g1",
         "gridAlpha":0,
         "color":"#888888",
-        "scrollbarHeight":55,
+        "scrollbarHeight":40,
         "backgroundAlpha":0,
         "selectedBackgroundAlpha":0.1,
         "selectedBackgroundColor":"#888888",
@@ -192,18 +270,18 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
       "theme": "light",
       "marginTop":0,
       "marginRight": 80,
-      "dataProvider": JSON.parse(localStorage.getItem('location')),
+      "dataProvider": _dataCalories,
       "graphs": [{
         "id":"g2",
-        "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]]</span></b>",
+        "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]] Cal</span></b>",
         "bullet": "round",
         "bulletSize": 8,
         "lineColor": "#d1655d",
         "lineThickness": 2,
         "negativeLineColor": "#637bb6",
-        "negativeBase": 60.2,
+        "negativeBase": 400,
         "type": "smoothedLine",
-        "valueField": "velocity"
+        "valueField": "calories"
       }],
       "chartScrollbar": {
         "graph":"g2",
@@ -253,6 +331,11 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
       this.hasSensor = true;
     } else {
       this.hasSensor = false;
+    }
+    if(localStorage.getItem('location')!==null){
+      this.hasLocation = true;
+    }else{
+      this.hasLocation = false;
     }
     if(localStorage.getItem('locationName')!==null){
       this.location= localStorage.getItem('locationName');
