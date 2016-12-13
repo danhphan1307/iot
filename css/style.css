@@ -70,7 +70,7 @@ a{
 }
 
 @media screen and (min-height: 500px){
- .topNav{
+   .topNav{
     height: 7%;
 }
 #mapCanvas{
@@ -596,25 +596,25 @@ th{
     border-color: #4d90fe;
 }
 #search_input::-webkit-input-placeholder {
-   color: #fff!important;
+ color: #fff!important;
 }
 
 #search_input:-moz-placeholder { /* Firefox 18- */
-   color: #fff!important;  
+ color: #fff!important;  
 }
 
 #search_input::-moz-placeholder {  /* Firefox 19+ */
-   color: #fff!important;  
+ color: #fff!important;  
 }
 
 #search_input:-ms-input-placeholder {  
-   color: #fff!important;  
+ color: #fff!important;  
 }
 #search_input{
-   color: #fff!important;  
+ color: #fff!important;  
 }
 #search_input:active, #search_input:focus{
-   color: #000!important;  
+ color: #000!important;  
 }
 
 #close_search{
@@ -638,18 +638,18 @@ th{
     animation: all 0.5s;
 }
 #arrowUp{
-   background-color: white;
-   top:9vh;
-   z-index:1;
-   position: absolute;
-   width: auto;
-   max-width: 10vw;
-   text-align: center;
-   left: 0; 
-   right: 0; 
-   margin-left: auto; 
-   margin-right: auto;  
-   animation: all 0.5s;
+ background-color: white;
+ top:9vh;
+ z-index:1;
+ position: absolute;
+ width: auto;
+ max-width: 10vw;
+ text-align: center;
+ left: 0; 
+ right: 0; 
+ margin-left: auto; 
+ margin-right: auto;  
+ animation: all 0.5s;
 }
 .newline{
     white-space: pre-wrap;
@@ -763,7 +763,7 @@ login-panel form{
     color:white;
 }
 analyze .appNav button{
-   padding:5px 0; 
+ padding:5px 0; 
 }
 .appNav img{
     margin-left:1vw;
@@ -929,4 +929,110 @@ analyze label{
         transform: scale(1.2);
         opacity: 0;
     }
+}
+
+
+.carousel-control.right,.carousel-control.left {
+    top: -30%;
+    background-image:none;
+}
+@-webkit-keyframes leftAni{
+ from {opacity: 0;left: -100px;}
+ to {opacity: 1;left:0;} 
+}
+@keyframes leftAni {
+    from {opacity: 0;left: -100px;}
+    to {opacity: 1;left:0;}
+}
+
+/* The element to apply the animation to */
+.leftAni{
+    position: relative;
+    opacity: 0;
+    left: -100px;
+    -webkit-animation: leftAni 0.5s forwards;
+    animation: leftAni 0.5s forwards;
+}
+@-webkit-keyframes rightAni {
+    from {opacity: 0;right: -100px;}
+    to {opacity: 1;right:0;}
+}
+@keyframes rightAni {
+    from {opacity: 0;right: -100px;}
+    to {opacity: 1;right:0;}
+}
+
+/* The element to apply the animation to */
+.rightAni{
+    position: relative;
+    opacity: 0;
+    right: -100px;
+    -webkit-animation: rightAni 0.5s forwards;
+    animation: rightAni 0.5s forwards;
+}
+#carouselInstruction{
+    position: absolute;
+    top:0;
+    height: 100vh;
+    width:100%;
+    z-index: 4;
+    transition: all 0.2s;
+    background: rgb(95,225,250); /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(left, rgb(95,225,250), rgb(178,98,251)); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, rgb(95,225,250), rgb(178,98,251)); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, rgb(95,225,250), rgb(178,98,251)); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, rgb(95,225,250), rgb(178,98,251)); /* Standard syntax */
+    overflow:hidden;
+}
+#carouselInstruction .row{
+    height: 100%;
+}
+#carouselInstruction .carousel-indicators li {
+    margin-right: 4px;
+    margin-left: 4px;
+}
+#carouselInstruction .col-md-12{
+    text-align:center;
+    height: 100%;
+}
+#carouselInstruction #instructionTitle{
+    height: 10%;
+}
+#carouselInstruction .carousel-inner {
+    overflow:visible;
+}
+#carouselInstruction .carousel-caption{
+    position: absolute;
+}
+#carouselInstruction h2{
+    text-transform: uppercase;
+    color: white;
+    display:inline-block;
+    margin:auto;
+    border-radius:5px;
+    border:1px solid white;
+    padding: 1vh 5vw;
+    position:relative;
+    top: 50%;
+    left: 50%; transform: translate(-50%, -50%);
+}
+#carouselInstruction img{
+    border-radius: 5px;
+}
+#carouselInstruction .carousel.slide{
+    height: 85%;
+}
+#carouselInstruction slide{
+    margin-top: 5vh;
+}
+#carouselInstruction button{
+    outline:none;
+    display:inline-block;
+    width: 48%;
+    min-height: 30px;
+    border-radius: 5%;
+    background-color:white;
+    margin-right:2%;
+    border:1px solid #779ECB;
+    color:#779ECB;  
 }

@@ -1,4 +1,5 @@
 <login-panel [hidden]="bRegister"></login-panel>
+<carouselInstruction id="carouselInstruction" [hidden]="!(carouselComponent.state&&bRegister)"></carouselInstruction>
 <info id ="info_panel"></info>
 <blackoverlay [hidden] ="bRegister"></blackoverlay>
 <top-nav (click)="topNavOpen()" ></top-nav>

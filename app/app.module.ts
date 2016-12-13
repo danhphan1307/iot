@@ -17,7 +17,7 @@ import { MapService } from './map/map.service';
 import { FormsModule } from '@angular/forms';
 import { Ng2BootstrapModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { FilterPanel} from './component/filter.panel';
-
+import { CarouselComponent } from './component/instruction.component';
 import { routing, appRoutingProviders }  from './app.routing';
 
 @NgModule({
@@ -31,7 +31,7 @@ import { routing, appRoutingProviders }  from './app.routing';
     declarations: [ AppComponent,
     MapComponent,
     BikeComponent,
-    BlackOverlay,routing, SearchBar,TopNavigation, LoginComponent, Info, Analyze, Sensor,FilterPanel],
+    BlackOverlay,routing, SearchBar,TopNavigation, LoginComponent, Info, Analyze, Sensor,FilterPanel,CarouselComponent],
     providers:[ MapService,BikeService],
     bootstrap: [AppComponent]
 })

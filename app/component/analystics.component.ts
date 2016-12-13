@@ -4,6 +4,7 @@ import {BlackOverlay} from '../component/blackoverlay.component';
 import {Coords} from '../models/location';
 import {Sensor} from '../component/sensor.panel.component';
 import {MapComponent} from '../map/map.component';
+import { CarouselComponent } from '../component/instruction.component';
 declare var AmCharts:any;
 
 @Component({
@@ -19,15 +20,18 @@ declare var AmCharts:any;
   template: `<div class="bottomDiv userInfo" [@animationBottomNav]="state">
   <div class="container">
   <div class="row">
-  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 panel">
-  <div class="inner">
-  <img src="../img/bicycling.jpg" alt="bicycling">
+  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 panel" id="bicyclingDiv">
+  <div class="inner" id="bicylingInner">
+  <img src="../img/bicycling.jpg" alt="bicycling" id="bicylingPanel">
+  <div  id="bicylingContent">
   <i class="fa fa-user" aria-hidden="true"></i><span>{{name}}</span><br>
   <i class="fa fa-map-marker" aria-hidden="true"></i><span>{{location}}</span><br>
   <button (click)="sensor.showLgModal()">Pair Sensors</button>
+  <button (click)="carouselComponent.showInstruction()">Instruction</button>
   </div>
   </div>
-  <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 chartDiv">
+  </div>
+  <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9 chartDiv" id="bicyclingDiv2">
   <div [hidden]="hasSensor">
   <div class="alert alert-danger">Please pair your device for analysis</div>
   </div>
@@ -52,16 +56,25 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
   location: string = "No data";
   hasSensor:boolean = false;
   map:any;
-
+  carouselComponent:any;
+  chart:any;
+  chart2:any;
   @ViewChild(Sensor)
   private sensor: Sensor;
 
   ngOnInit(){
     (localStorage.getItem('userInfo'))?this.name = localStorage.getItem('userInfo'):this.name;
-
+    document.getElementById('btn-success').onclick = ()=>{
+      setTimeout(()=>{
+        this.graph();
+      },1500);
+    }
     setInterval(()=>{
       this.getData();
     },2000);
+  }
+  ngAfterViewInit(){
+    this.graph();
   }
 
 
@@ -117,11 +130,11 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
     return Value * Math.PI / 180;
   }
 
-  ngAfterViewInit(){
-    /*
+  graph(){
+      /*
     * AmChart Object
     */
-    var chart = AmCharts.makeChart("myChart", {
+    this.chart = AmCharts.makeChart("myChart", {
       "type": "serial",
       "theme": "light",
       "marginTop":0,
@@ -174,7 +187,7 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
         "enabled": true
       }
     });
-    var chart2 = AmCharts.makeChart("myChart2", {
+    this.chart2 = AmCharts.makeChart("myChart2", {
       "type": "serial",
       "theme": "light",
       "marginTop":0,
@@ -190,7 +203,7 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
         "negativeLineColor": "#637bb6",
         "negativeBase": 60.2,
         "type": "smoothedLine",
-        "valueField": "lat"
+        "valueField": "velocity"
       }],
       "chartScrollbar": {
         "graph":"g2",
@@ -231,8 +244,9 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
     * End of AmChart Object
     */
   }
-  load(_map:any){
+  load(_map:any, _carol:any){
     this.map = _map;
+    this.carouselComponent= _carol;
   }
   getData(){
     if(localStorage.getItem("sensor") !== null){

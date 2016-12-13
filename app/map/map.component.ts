@@ -38,6 +38,7 @@ export class MapComponent{
     map:any;
     centerLat: number = -1;
     centerLon: number = -1;
+    centerHeading: number = 0;
     centerMarker: any;
 
     directionArray:any[] = [];
@@ -102,7 +103,7 @@ export class MapComponent{
 
     }
     placeCenterMarker(_lat:number, _lng:number, _heading:number){
-        if(this.centerLat!=_lat || this.centerLon !=_lng){
+        if(this.centerLat!=_lat || this.centerLon !=_lng || this.centerHeading !=_heading){
             this.clearCenterMarker();
             this.centerLat = _lat;
             this.centerLon = _lng;
@@ -131,9 +132,9 @@ export class MapComponent{
     }
 
     clearCenterMarker(){
-        if(this.centerMarker !== undefined){
+        if(this.centerMarker !== undefined && this.centerMarker!==null){
             this.centerMarker.setMap(null);
-            this.centerMarker = [];
+            this.centerMarker = null;
             this.clearDirection();
             this.centerLat = -1;
             this.centerLon = -1;
@@ -245,7 +246,9 @@ export class MapComponent{
                     this.infowindowBike.open(this.map, markerBike);
                     var el = document.getElementById('markerBike');
                     google.maps.event.addDomListener(el,'click',()=>{
-                        this.showDirection(markerBike,false);
+                        if(localStorage.getItem('sensor')!==null && localStorage.getItem('location')!==null){
+                            this.showDirection(markerBike,false);
+                        }
                     });
 
                 });
@@ -257,10 +260,10 @@ export class MapComponent{
         return (input_string.charAt(0).toUpperCase() + input_string.slice(1)).replace(/_/g," ");
     }
 
-    getNameFromGeocoder(_name:string){
+    getNameFromGeocoder(){
         var geocoder  = new google.maps.Geocoder();
         var JSONobject= JSON.parse(localStorage.getItem("location"));
-        var latlng = {lat: parseFloat(JSONobject.data[Object.keys(JSONobject).length-1].x), lng: JSONobject.data[Object.keys(JSONobject).length-1].y};
+        var latlng = {lat: parseFloat(JSONobject[Object.keys(JSONobject).length-1].lat), lng: JSONobject[Object.keys(JSONobject).length-1].lon};
         geocoder.geocode({
             'location': latlng
         }, (result:any, status:any) =>{
@@ -268,7 +271,6 @@ export class MapComponent{
                 localStorage.setItem('locationName',result[0].formatted_address);
             } else {
                 console.log('Geocoder failed due to: ' + status);
-                _name = "Location not found";
             }
         });
     }

@@ -131,12 +131,14 @@ export class Info implements OnInit{
       if(localStorage.getItem("location")!==null){
         var JSONObject= JSON.parse(localStorage.getItem("location"));
         var lastObject = JSONObject[Object.keys(JSONObject).length-1];
-        this.map.placeCenterMarker(lastObject.lat,lastObject.lon, lastObject.roll);
+        this.map.placeCenterMarker(lastObject.lat,lastObject.lon, lastObject.yaw);
         this.velocity = lastObject.velocity;
         this.lastUpdate = this.printDate(new Date(lastObject.timestamp));
+        this.map.getNameFromGeocoder();
       } else {
         this.velocity=0.01;
         this.map.clearCenterMarker();
+        localStorage.setItem('locationName',"No data");
         this.lastUpdate = 'No data';
       }
       if(localStorage.getItem("userInfo") !== null){
@@ -145,12 +147,12 @@ export class Info implements OnInit{
       if(localStorage.getItem("estimateDistance") !== null){
         this.estimateDistance = Number(localStorage.getItem("estimateDistance"))/1000;
       }else {
-         this.estimateDistance=0;
+        this.estimateDistance=0;
       }
       if(localStorage.getItem("estimateTime") !== null){
         this.estimateTime = this.printDiff(Number(localStorage.getItem("estimateTime"))*1000);
       }else {
-         this.estimateTime='00:00:00';
+        this.estimateTime='00:00:00';
       }
       if(localStorage.getItem("sensor") !== null){
         this.hasSensor = true;

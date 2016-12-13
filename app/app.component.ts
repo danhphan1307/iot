@@ -14,7 +14,7 @@ import {AlertComponent } from 'ng2-bootstrap/ng2-bootstrap';
 import {NgModel} from '@angular/forms';
 import {Coords} from './models/location';
 import {FilterPanel} from './component/filter.panel';
-
+import { CarouselComponent } from './component/instruction.component';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 
@@ -71,7 +71,8 @@ export class AppComponent implements OnInit {
   @ViewChild(Info)
   private info: Info;
 
-
+  @ViewChild(CarouselComponent)
+  private carouselComponent: CarouselComponent;
 
   stations : BikeStation[];
   data : string
@@ -87,7 +88,7 @@ export class AppComponent implements OnInit {
     this.blackOverlay.setState('full');
     this.filter.load(this.MapComponent);
     this.info.load(this.MapComponent);
-    this.analyze.load(this.MapComponent);
+    this.analyze.load(this.MapComponent,this.carouselComponent);
     if(!userExist()){
       let timer = Observable.timer(2000,1000);
       timer.subscribe(()=> {

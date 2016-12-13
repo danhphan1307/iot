@@ -46,6 +46,7 @@ export class TopNavigation  extends AbstractComponent{
     localStorage.removeItem('locationName');
     localStorage.removeItem('estimateTime');
     localStorage.removeItem("timeStart") ;
+    localStorage.removeItem('showInstruction');
     window.location.reload();
   }
 }

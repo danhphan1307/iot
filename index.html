@@ -51,6 +51,9 @@
 					localStorage.removeItem("");
 				else
 					localStorage.setItem("", itemBackup);
+				if(localStorage.getItem('showInstruction')==undefined){
+					localStorage.setItem('showInstruction','true');
+				}
 				return true;
 			}
 			catch (e) {
