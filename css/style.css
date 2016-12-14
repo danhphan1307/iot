@@ -25,6 +25,10 @@ a{
 .topNav *{
     z-index: 2;
 }
+hr{
+    margin-top:10px;
+    margin-bottom: 10px;
+}
 #mapCanvas{
     margin: 0;
     padding: 0;
@@ -346,6 +350,8 @@ h2{
     height:100%;
 }
 .topNav li{
+    padding-left: 10px;
+    padding-right: 10px;
     position: relative;
     list-style-type: none;
     font-size: 0.8em;

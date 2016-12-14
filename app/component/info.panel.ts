@@ -129,7 +129,9 @@ export class Info implements OnInit{
         var JSONObject= JSON.parse(localStorage.getItem("location"));
         var lastObject = JSONObject[Object.keys(JSONObject).length-1];
         this.map.placeCenterMarker(lastObject.lat,lastObject.lon, lastObject.yaw);
-        this.velocity = lastObject.velocity;
+        if(lastObject.velocity==0){
+          this.velocity = 0.01;
+        }
         this.lastUpdate = this.printDate(new Date(lastObject.timestamp));
       } else {
         this.velocity=0.01;

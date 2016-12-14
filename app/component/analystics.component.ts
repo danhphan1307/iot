@@ -130,9 +130,11 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
           }
         } 
       }
-      if(myData[myData.length-1].timestamp != obj.timestamp){
-        myData.push(obj);
-        distance=0;
+      if(myData.length>=1){
+        if(myData[myData.length-1].timestamp != obj.timestamp){
+          myData.push(obj);
+          distance=0;
+        }
       }
     }
     return myData
@@ -164,9 +166,11 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
           }
         } 
       }
-      if(myData[myData.length-1].timestamp != obj.timestamp){
-        myData.push(obj);
-        calories=0;
+      if(myData.length >=1){
+        if(myData[myData.length-1].timestamp != obj.timestamp){
+          myData.push(obj);
+          calories=0;
+        }
       }
     }
     return myData

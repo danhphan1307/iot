@@ -9,6 +9,7 @@ import '@angular/router';
 // RxJS
 import 'rxjs';
 import '../css/bootstrap.min.css';
+import '../amcharts/plugins/export/export.css';
 import '../bootstrap-slider/bootstrap-slider.min.css';
 import '../css/style.css';
 import '../css/font-awesome.min.css';
