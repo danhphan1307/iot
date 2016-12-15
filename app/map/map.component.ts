@@ -44,6 +44,8 @@ export class MapComponent{
     directionArray:any[] = [];
     _destination:any;
     _desMarker:any;
+    cyclingPath:any;
+    pathArray:any;
 
     infowindowMainMarker = new google.maps.InfoWindow();
     infowindowFacility = new google.maps.InfoWindow();
@@ -51,9 +53,6 @@ export class MapComponent{
     infowindowDestination = new google.maps.InfoWindow();
     infowindowParkPlace = new google.maps.InfoWindow();
     infowindowPolygon = new google.maps.InfoWindow();
-
-    @Input()
-    circleRadius: number;
 
     @Input()
     markers: any[] = [];
@@ -275,6 +274,21 @@ export class MapComponent{
                 console.log('Geocoder failed due to: ' + status);
             }
         });
+    }
+
+    drawCyclingPath(_path:any){
+        if(this.pathArray != _path){
+            this.pathArray = _path;
+            this.clearCyclingPath();
+            this.cyclingPath = this.service.drawLine(this.map,_path);
+        }
+        
+    }
+    clearCyclingPath(){
+        if(this.cyclingPath!==null && this.cyclingPath!==undefined){
+            this.cyclingPath.setMap(null);
+            this.cyclingPath = null;
+        }
     }
 
 

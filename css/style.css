@@ -43,7 +43,7 @@ hr{
     margin-left:10px;
     width:28px;
 }
-#myChart,#myChart2{
+#myChart,#myChart2, #myChart3{
     padding-top: 0;
     margin-bottom: 30px;
     width   : 100%;
@@ -74,7 +74,7 @@ hr{
 }
 
 @media screen and (min-height: 500px){
-   .topNav{
+ .topNav{
     height: 7%;
 }
 #mapCanvas{
@@ -608,25 +608,25 @@ th{
     border-color: #4d90fe;
 }
 #search_input::-webkit-input-placeholder {
- color: #fff!important;
+   color: #fff!important;
 }
 
 #search_input:-moz-placeholder { /* Firefox 18- */
- color: #fff!important;  
+   color: #fff!important;  
 }
 
 #search_input::-moz-placeholder {  /* Firefox 19+ */
- color: #fff!important;  
+   color: #fff!important;  
 }
 
 #search_input:-ms-input-placeholder {  
- color: #fff!important;  
+   color: #fff!important;  
 }
 #search_input{
- color: #fff!important;  
+   color: #fff!important;  
 }
 #search_input:active, #search_input:focus{
- color: #000!important;  
+   color: #000!important;  
 }
 
 #close_search{
@@ -650,18 +650,18 @@ th{
     animation: all 0.5s;
 }
 #arrowUp{
- background-color: white;
- top:9vh;
- z-index:1;
- position: absolute;
- width: auto;
- max-width: 10vw;
- text-align: center;
- left: 0; 
- right: 0; 
- margin-left: auto; 
- margin-right: auto;  
- animation: all 0.5s;
+   background-color: white;
+   top:9vh;
+   z-index:1;
+   position: absolute;
+   width: auto;
+   max-width: 10vw;
+   text-align: center;
+   left: 0; 
+   right: 0; 
+   margin-left: auto; 
+   margin-right: auto;  
+   animation: all 0.5s;
 }
 .newline{
     white-space: pre-wrap;
@@ -753,7 +753,7 @@ login-panel form{
     height: 100%;
 }
 
-.appNav{
+.appNav,analyze .analyzeNav{
     /*height: 10vh;*/
     text-align: center;
     background:rgba(119,158,203,0.7);
@@ -775,9 +775,6 @@ login-panel form{
     outline: none;
     color:white;
 }
-analyze .appNav button{
- padding:5px 0; 
-}
 .appNav img{
     margin-left:1vw;
     padding:1vh 1vw;
@@ -796,9 +793,28 @@ button.active{
     font-weight: bold;
     background-color:#41C0BB;
 }
-.appNav button:hover{
+.appNav button:hover, analyze .analyzeNav button:hover{
     color:white;
 }
+
+analyze .analyzeNav button{
+   padding:5px 0; 
+   height: 100%;
+}
+analyze .analyzeNav button{
+    text-align:center;
+    font-weight: bold;
+    display: inline-block;
+    padding:10px 0;
+    margin:0;
+    width:33.33%;
+    color:#ddd;
+    text-decoration: none;
+    vertical-align:middle;
+    outline: none;
+    color:white;
+}
+
 .btn-primary{
     color: #fff;
     background-color: #41c0bb;
@@ -950,8 +966,8 @@ analyze label{
     background-image:none;
 }
 @-webkit-keyframes leftAni{
- from {opacity: 0;left: -100px;}
- to {opacity: 1;left:0;} 
+   from {opacity: 0;left: -100px;}
+   to {opacity: 1;left:0;} 
 }
 @keyframes leftAni {
     from {opacity: 0;left: -100px;}

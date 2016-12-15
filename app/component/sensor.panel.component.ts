@@ -12,7 +12,7 @@ import { Observable} from 'rxjs/Rx';
 	<div class="modal-dialog vertical-align-center">
 	<div class="modal-content">
 	<div class="modal-body" id="modal-body">
-	<h4 class="modal-title" id="title">Change Sensor</h4><br>
+	<h4 class="modal-title" id="title">Pair Sensor</h4><br>
 
 	<i class="fa fa-cogs" aria-hidden="true"></i> <input type="text" placeholder="Device MAC" aria-describedby="sizing-addon2" id="input1" value="5c7f8702cfff0"><br>
 	<br>
@@ -23,7 +23,7 @@ import { Observable} from 'rxjs/Rx';
 	<div id="success-log" class="alert alert-success" style="display:none"></div>
 	<br>
 	<div style="display:block;margin:0 auto;text-align:center;">
-	<button type="submit" class="btn btn-success" id="btn-success" (click) = "login()">Change</button>
+	<button type="submit" class="btn btn-success" id="btn-success" (click) = "login()">Pair</button>
 	<button type="button" class="btn btn-danger" id="btn-danger" (click)="hideLgModal()">Close</button>
 	</div>
 	</div>

@@ -38,6 +38,8 @@ import {BlackOverlay} from '../component/blackoverlay.component';
 })
 export class TopNavigation  extends AbstractComponent{
   logout(){
+    localStorage.removeItem("heartRate");
+    localStorage.removeItem("runningTime");
     localStorage.removeItem('userInfo');
     localStorage.removeItem('destination');
     localStorage.removeItem('location');

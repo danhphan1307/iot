@@ -46,10 +46,10 @@ import {MapComponent} from '../map/map.component';
   </tr>
   <tr [hidden] ="!hasSensor||!hasLocation">
   <td>
-  Time Pass
+  Running Time
   </td>
   <td>
-  {{printDiff(timePass)}}
+  {{printDiff(runningTime)}}
   </td>
   </tr>
   <tr [hidden] ="!hasSensor||!hasLocation">
@@ -58,6 +58,14 @@ import {MapComponent} from '../map/map.component';
   </td>
   <td>
   {{printDiff((estimateDistance/velocity)*3600000)}}
+  </td>
+  </tr>
+  <tr [hidden] ="!hasSensor||!hasLocation">
+  <td>
+  Heart Rate
+  </td>
+  <td>
+  {{heartRate}} bpm
   </td>
   </tr>
   <tr [hidden] ="!hasSensor||!hasLocation">
@@ -89,12 +97,18 @@ export class Info implements OnInit{
   velocity:number = 0.01;
   avarage:number = 0 ;
   calories:number = 0;
-  timePass:any = 1;
+  runningTime:number = 0;
+  heartRate:number = 0;
   hasSensor:boolean=false;
   hasLocation:boolean = false;
   map:any;
   lastUpdate:string = 'No data';
-
+  timePause:number = 0;
+  minimumVelo:number = 2;
+  maximumInactiveTime:number = 60*60*1000;
+  updateTimeInSecond:number = 2000;
+  oldLat:number = -1;
+  oldLng:number = -1;
 
   toggle(){
     this.open? this.open = false:this.open = true;
@@ -104,8 +118,8 @@ export class Info implements OnInit{
   }
   ngOnInit(){
     try{
-      if(localStorage.getItem("timeStart") !== null){
-        this.timePass = this.diffTwoDay(new Date(), new Date (localStorage.getItem('timeStart')));
+      if(localStorage.getItem("runningTime") !== null){
+        this.runningTime = Number(localStorage.getItem("runningTime"));
       }
       setTimeout(()=>{
         this.updateData();
@@ -113,7 +127,7 @@ export class Info implements OnInit{
       },500);
       setInterval(()=>{
         this.updateData();
-      },2000);
+      },this.updateTimeInSecond);
       setInterval(()=>{
         this.updateTime();
       },1000);
@@ -129,8 +143,11 @@ export class Info implements OnInit{
         var JSONObject= JSON.parse(localStorage.getItem("location"));
         var lastObject = JSONObject[Object.keys(JSONObject).length-1];
         this.map.placeCenterMarker(lastObject.lat,lastObject.lon, lastObject.yaw);
-        if(lastObject.velocity==0){
+
+        if(lastObject.velocity<=0){
           this.velocity = 0.01;
+        }else {
+          this.velocity = lastObject.velocity;
         }
         this.lastUpdate = this.printDate(new Date(lastObject.timestamp));
       } else {
@@ -152,6 +169,13 @@ export class Info implements OnInit{
       }else {
         this.estimateTime='00:00:00';
       }
+      if(localStorage.getItem("heartRate") !== null){
+        var JSONObject= JSON.parse(localStorage.getItem("heartRate"));
+        var lastObject = JSONObject[Object.keys(JSONObject).length-1];
+        this.heartRate = Number(lastObject.hr);
+      }else {
+        this.heartRate = 0;
+      }
       if(localStorage.getItem("sensor") !== null){
         this.hasSensor = true;
       }else {
@@ -170,11 +194,35 @@ export class Info implements OnInit{
   }
 
   updateTime(){
-    if(this.velocity >= 5 && localStorage.getItem("location")!==null){
-      if(localStorage.getItem("timeStart") == null){
-        localStorage.setItem("timeStart",String(new Date()));
-      }else {
-        this.timePass=this.diffTwoDay(new Date(), new Date (localStorage.getItem('timeStart')));
+    //do not start counter if velo < minimun velo
+    if(this.velocity >= this.minimumVelo && localStorage.getItem("location")!==null){
+      localStorage.setItem("timeStart", String(new Date()));
+      this.runningTime+=1000;
+      localStorage.setItem("runningTime",String(this.runningTime));
+      if(this.runningTime%this.updateTimeInSecond==0){
+        //another counter, you don't want to take all user resource by updating all the time
+        var cyclingCoordinates:any = [];
+        var JSONObject= JSON.parse(localStorage.getItem("location"));
+        var lastObject = JSONObject[Object.keys(JSONObject).length-1];
+        if(lastObject.lat != this.oldLat|| lastObject.lon !=this.oldLng ){
+          for (var x in JSONObject){
+            if(this.diffTwoDay(new Date(), new Date(JSONObject[x].timestamp)) <= this.runningTime){
+              console.log('jump');
+              var temp = {lat:JSONObject[x].lat, lng:JSONObject[x].lon};
+              cyclingCoordinates.push(temp);
+            }
+          }
+          console.log('end');
+          this.map.drawCyclingPath(cyclingCoordinates);
+        }
+
+      }
+    }
+
+    if(localStorage.getItem("timeStart")!==null){
+      if(this.diffTwoDay(new Date(), new Date(localStorage.getItem("timeStart"))) >this.maximumInactiveTime){
+        this.runningTime = 0;
+        this.map.clearCyclingPath();
       }
     }
   }
@@ -196,18 +244,18 @@ export class Info implements OnInit{
   }
 
   calculateCalories(_veloc:number){
-    if(_veloc<4.4){
-      this.calories = 4 * this.timePass/60000;
+    if(this.minimumVelo<_veloc && _veloc<4.4){
+      this.calories = 4 * this.runningTime/60000;
     } else if(_veloc<5.3){
-      this.calories = 6 * this.timePass/60000;
+      this.calories = 6 * this.runningTime/60000;
     } else if(_veloc<6.25){
-      this.calories = 8 * this.timePass/60000;
+      this.calories = 8 * this.runningTime/60000;
     }else if(_veloc<7.15){
-      this.calories = 10 * this.timePass/60000;
+      this.calories = 10 * this.runningTime/60000;
     }else if(_veloc<8.9){
-      this.calories = 12 * this.timePass/60000;
+      this.calories = 12 * this.runningTime/60000;
     }else if(_veloc>=8.9){
-      this.calories = 16 * this.timePass/60000;
+      this.calories = 16 * this.runningTime/60000;
     }
     this.calories = Math.round(this.calories);
   }
@@ -216,6 +264,6 @@ export class Info implements OnInit{
     setTimeout(()=>{
       document.getElementById("analyze").click();
     },100);
-    
+
   }
 }

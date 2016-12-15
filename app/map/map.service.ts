@@ -94,7 +94,7 @@ export class MapService{
         }else if(_map.getZoom()>=14 && _map.getZoom()<=16){
             return 'medium';
         }else{
-             return 'large';
+            return 'large';
         }
     }
 
@@ -122,6 +122,18 @@ export class MapService{
         return circle;
     }
 
+    drawLine(_map:any, _path:any){
+        var cyclingPath = new google.maps.Polyline({
+            path: _path,
+            map:_map,
+            geodesic: true,
+            strokeColor: 'rgb(209, 226, 246)',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+        });
+        return cyclingPath;
+    }
+
     placeMarker( _map: any, _lat: number, _lon: number, _type:string,_degree:number=90): any{
         var _icon:any = null;
         var _zIndex:any = 0;
@@ -138,7 +150,7 @@ export class MapService{
                     fillColor: 'rgb(245, 153, 194)',
                     strokeColor: 'rgb(245, 153, 194)',
                     scale: 0.1,
-                    rotation:_degree  
+                    rotation:_degree+45  
                 },
                 medium: {
                     path: "m36,0.333c-19.075,0 -34.539,15.463 -34.539,34.539c0,28.963 34.539,48.795 34.539,48.795s34.54,-19.832 34.54,-48.795c0,-19.076 -15.465,-34.539 -34.54,-34.539zm0,51.529c-9.391,0 -17.004,-7.611 -17.004,-17.002c0,-9.393 7.613,-17.004 17.004,-17.004c9.391,0 17.004,7.611 17.004,17.004c0,9.391 -7.613,17.002 -17.004,17.002z",
@@ -146,7 +158,7 @@ export class MapService{
                     fillColor: 'rgb(245, 153, 194)',
                     strokeColor: 'rgb(245, 153, 194)',
                     scale: 0.3,
-                    rotation:_degree 
+                    rotation:_degree+45
                 },
                 large: {
                     path: "m36,0.333c-19.075,0 -34.539,15.463 -34.539,34.539c0,28.963 34.539,48.795 34.539,48.795s34.54,-19.832 34.54,-48.795c0,-19.076 -15.465,-34.539 -34.54,-34.539zm0,51.529c-9.391,0 -17.004,-7.611 -17.004,-17.002c0,-9.393 7.613,-17.004 17.004,-17.004c9.391,0 17.004,7.611 17.004,17.004c0,9.391 -7.613,17.002 -17.004,17.002z",
@@ -154,7 +166,7 @@ export class MapService{
                     fillColor: 'rgb(245, 153, 194)',
                     strokeColor: 'rgb(245, 153, 194)',
                     scale: 0.5,
-                    rotation:_degree 
+                    rotation:_degree+45
                 }
             }
         }

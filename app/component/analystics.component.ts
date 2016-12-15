@@ -40,11 +40,13 @@ declare var AmCharts:any;
   <div class="alert alert-danger">No data</div>
   </div>
   <div [hidden]="!hasSensor||!hasLocation">
-  <div class="appNav">
+  <div class="analyzeNav">
   <button class="active" id = "distanceBtn" >DISTANCE</button><!--
-  !--><button id = "caloriesBtn" >CALORIES</button>
+  !--><button id = "caloriesBtn" >CALORIES</button><!--
+  !--><button id = "heartRateBtn" >HEART RATE</button>
   </div>
-  <div id="myChart2" ></div>
+  <div id="myChart3"></div>
+  <div id="myChart2"></div>
   <div id="myChart"></div>
   </div>
   </div>
@@ -64,6 +66,7 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
   carouselComponent:any;
   chart:any;
   chart2:any;
+  chart3:any;
   @ViewChild(Sensor)
   private sensor: Sensor;
 
@@ -72,8 +75,8 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
     document.getElementById('btn-success').onclick = ()=>{
       if((<HTMLInputElement>document.getElementById('input1')).value!=localStorage.getItem('sensor')){
         setTimeout(()=>{
-          this.graph(this.gatherDistance(), this.gatheCalories());
-        },2000);
+          this.graph(this.gatherDistance(), this.gatheCalories(), this.gatheHeartRate());
+        },1500);
       }
 
     }
@@ -81,12 +84,8 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
       this.getData();
     },2000);
   }
-  updateChart(){
-    this.graph(this.gatherDistance(), this.gatheCalories());
-
-  }
   ngAfterViewInit(){
-    this.graph(this.gatherDistance(), this.gatheCalories());
+    this.graph(this.gatherDistance(), this.gatheCalories(), this.gatheHeartRate());
   }
   diffTwoDay(_date1:any, _date2:any):number{
     var timeDiff = (Math.abs(_date1.getTime() - _date2.getTime()))/1000;
@@ -103,6 +102,19 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
     document.getElementById('user_icon').style.display='none';
     document.getElementById('bicyclingDiv2').className= 'col-xs-9 col-sm-9 col-md-9 col-lg-9 chartDiv';
   }
+
+  gatheHeartRate():any{
+    var myData:any = [{"hr":0,"timestamp":new Date()}];
+    if(localStorage.getItem('heartRate')!==null){
+      myData = JSON.parse(localStorage.getItem('heartRate'));
+      myData = myData.filter((_data:any)=>{
+        return _data.hr > 0;
+      })
+    }
+    return myData
+  }
+
+
   gatherDistance():any{
     var myData:any = [{"distance":0,"timestamp":new Date()}];
     if(localStorage.getItem('location')!==null){
@@ -212,7 +224,7 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
     return Value * Math.PI / 180;
   }
 
-  graph(_dataDistance:any, _dataCalories:any){
+  graph(_dataDistance:any, _dataCalories:any, _dataHeartRate:any){
       /*
     * AmChart Object
     */
@@ -289,6 +301,59 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
       }],
       "chartScrollbar": {
         "graph":"g2",
+        "gridAlpha":0,
+        "color":"#888888",
+        "scrollbarHeight":55,
+        "backgroundAlpha":0,
+        "selectedBackgroundAlpha":0.1,
+        "selectedBackgroundColor":"#888888",
+        "graphFillAlpha":0,
+        "autoGridCount":true,
+        "selectedGraphFillAlpha":0,
+        "graphLineAlpha":0.2,
+        "graphLineColor":"#c2c2c2",
+        "selectedGraphLineColor":"#888888",
+        "selectedGraphLineAlpha":1
+
+      },
+      "chartCursor": {
+        "categoryBalloonDateFormat": "JJ:NN:SS MMM DD, YYYY",
+        "cursorAlpha": 0,
+        "valueLineEnabled":true,
+        "valueLineBalloonEnabled":true,
+        "valueLineAlpha":0.5,
+        "fullWidth":true
+      },
+      "dataDateFormat": "YYYY-MM-DD JJ:NN:SS",
+      "categoryField": "timestamp",
+      "categoryAxis": {
+        "parseDates" : true,
+        "minPeriod": "mm",
+        "minorGridEnabled": false,
+      }, "export": {
+        "enabled": true
+      }
+    });
+    this.chart3 = AmCharts.makeChart("myChart3", {
+      "type": "serial",
+      "theme": "light",
+      "marginTop":0,
+      "marginRight": 80,
+      "dataProvider": _dataHeartRate,
+      "graphs": [{
+        "id":"g3",
+        "balloonText": "[[category]]<br><b><span style='font-size:14px;'>[[value]] Cal</span></b>",
+        "bullet": "round",
+        "bulletSize": 8,
+        "lineColor": "#d1655d",
+        "lineThickness": 2,
+        "negativeLineColor": "#637bb6",
+        "negativeBase": 100,
+        "type": "smoothedLine",
+        "valueField": "hr"
+      }],
+      "chartScrollbar": {
+        "graph":"g3",
         "gridAlpha":0,
         "color":"#888888",
         "scrollbarHeight":55,
