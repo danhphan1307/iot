@@ -91,6 +91,11 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
     var timeDiff = (Math.abs(_date1.getTime() - _date2.getTime()))/1000;
     return timeDiff;
   }
+  updateChart(){
+    if(this.gatherDistance().distance!=0 && this.gatheCalories().calories!=0  && this.gatheHeartRate().hr!=0){
+      this.graph(this.gatherDistance(),this.gatheCalories(),this.gatheHeartRate());
+    }
+  }
   hide_left(){
     document.getElementById('bicyclingDiv').style.display='none';
     document.getElementById('user_icon').style.display='block';
@@ -303,7 +308,7 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
         "graph":"g2",
         "gridAlpha":0,
         "color":"#888888",
-        "scrollbarHeight":55,
+        "scrollbarHeight":40,
         "backgroundAlpha":0,
         "selectedBackgroundAlpha":0.1,
         "selectedBackgroundColor":"#888888",
@@ -356,7 +361,7 @@ export class Analyze extends AbstractComponent implements OnInit,AfterViewInit {
         "graph":"g3",
         "gridAlpha":0,
         "color":"#888888",
-        "scrollbarHeight":55,
+        "scrollbarHeight":40,
         "backgroundAlpha":0,
         "selectedBackgroundAlpha":0.1,
         "selectedBackgroundColor":"#888888",

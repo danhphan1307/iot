@@ -68,7 +68,7 @@ hr{
     body{
         overflow: hidden!important;
     }
-    #myChart,#myChart2{
+    #myChart,#myChart2,#myChart3{
         height  : 70vh;
     }
 }
@@ -86,7 +86,7 @@ hr{
 .bottomDiv{
     top: 7vh;
 }
-#myChart,#myChart2{
+#myChart,#myChart2, #myChart3{
     height  : 80vh;
 }
 }
@@ -130,7 +130,7 @@ hr{
     .bottomDiv{
         top: 8vh;
     }
-    #myChart,#myChart2{
+    #myChart,#myChart2,#myChart3{
         height  : 80vh;
     }
 }
