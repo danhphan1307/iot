@@ -23,4 +23,3 @@ This program is free software; it is distributed under an
 ---
 
 Copyright (c) 2016 [SMART BIKE](https://smart-bike-5953c.firebaseapp.com)
-([Contributors](https://github.com/danhphan1307/iot/graphs/contributors)).
